@@ -1,5 +1,16 @@
 grammar Grammar;
 
+@header {
+	package com.samborskiy.antlr;
+	import java.util.*; 
+	import com.samborskiy.elements.*;
+}
+
+@parser::members {
+	public Set<Terminal> terminals = new HashSet<>();
+	public Map<Nonterminal, List<Rule>> rules = new HashMap<>();
+}
+
 gram
 	: (rules SPACE?)* EOF
 	;
@@ -10,12 +21,16 @@ rules
 	;
 	
 term
-	: TERMINAL SPACE? ':' termrightpart ('|' termrightpart)* ';'
+	: TERMINAL SPACE? ':' SPACE? termrightpart SPACE? ';'
+	{terminals.add(new Terminal($TERMINAL.text, $termrightpart.val));}
 	;
 	
-termrightpart
-	: SPACE? '\'' SYMBOL* '\'' SPACE?
-	| SPACE? '[' SYMBOL* ']' SPACE?
+termrightpart returns [String val]
+	@init {String res = "";}
+	: SPACE? '\'' (SYMBOL{res += $SYMBOL.text;})* '\'' SPACE?
+	{$val = "\'" + res + "\'";}
+	| SPACE? '[' (SYMBOL{res += $SYMBOL.text;})* ']' SPACE?
+	{$val = "[" + res + "]";}
 	;
 
 nonterm

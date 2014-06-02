@@ -1,11 +1,11 @@
 s
 	: n a
-	| 
+	| EPS
 	;
 
 a
 	: n a SIGN a
-	| 
+	| EPS
 	;
 	
 n
@@ -15,3 +15,4 @@ n
 
 SIGN: [+\-*];
 N	: [0-9];
+EPS : '';

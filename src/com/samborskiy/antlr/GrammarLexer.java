@@ -1,4 +1,9 @@
 // Generated from Grammar.g4 by ANTLR 4.2
+
+	package com.samborskiy.antlr;
+	import java.util.*; 
+	import com.samborskiy.elements.*;
+
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

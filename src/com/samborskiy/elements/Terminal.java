@@ -2,31 +2,37 @@ package com.samborskiy.elements;
 
 public class Terminal implements Element {
 
-	public static final Terminal EPS = new Terminal("EPS");
-	public static final Terminal END = new Terminal("$");
-	public static final Terminal NUM = new Terminal("n");
+	// public static final Terminal EPS = new Terminal("EPS");
+	// public static final Terminal END = new Terminal("$");
+	// public static final Terminal NUM = new Terminal("n");
 
-	private String value;
+	private String name;
+	private String matchValue;
 
-	public Terminal(String value) {
-		this.value = value;
+	public Terminal(String name, String matchValue) {
+		this.name = name;
+		this.matchValue = matchValue;
 	}
 
 	@Override
 	public String get() {
-		return value;
+		return name;
+	}
+
+	public String match() {
+		return matchValue;
 	}
 
 	@Override
 	public String toString() {
-		return value.equals(EPS) ? "" : value;
+		return name;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -39,10 +45,10 @@ public class Terminal implements Element {
 		if (getClass() != obj.getClass())
 			return false;
 		Terminal other = (Terminal) obj;
-		if (value == null) {
-			if (other.value != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!value.equals(other.value))
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
