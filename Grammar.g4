@@ -8,11 +8,39 @@ grammar Grammar;
 
 @parser::members {
 	public Set<Terminal> terminals = new HashSet<>();
-	public Map<Nonterminal, List<Rule>> rules = new HashMap<>();
+	public Map<Nonterminal, List<Rule>> grammaRules = new HashMap<>();
+	private Map<Nonterminal, List<List<String>>> rules = new HashMap<>();
+	
+	private Terminal findTerm(String str) {
+		for (Terminal term : terminals) {
+			if (term.get().equals(str)) {
+				return term;
+			}
+		}
+		return null;
+	}
 }
 
 gram
 	: (rules SPACE?)* EOF
+	{
+		for (Nonterminal nonterm : rules.keySet()) {
+			List<Rule> newRules = new ArrayList<>();
+			for (List<String> list : rules.get(nonterm)) {
+				Element[] elements = new Element[list.size()];
+				for (int i = 0; i < list.size(); i++) {
+					Terminal term = findTerm(list.get(i));
+					if (term == null) {
+						elements[i] = new Nonterminal(list.get(i));
+					} else {
+						elements[i] = term;
+					}
+				}
+				newRules.add(new Rule(elements));
+			}
+			grammaRules.put(nonterm, newRules);
+		}
+	}
 	;
 	
 rules 
@@ -21,7 +49,7 @@ rules
 	;
 	
 term
-	: TERMINAL SPACE? ':' SPACE? termrightpart SPACE? ';'
+	: TERMINAL SPACE? ':' termrightpart ';'
 	{terminals.add(new Terminal($TERMINAL.text, $termrightpart.val));}
 	;
 	
@@ -34,13 +62,17 @@ termrightpart returns [String val]
 	;
 
 nonterm
-	: NONTERMINAL SPACE? ':' nontermrightpart ('|' nontermrightpart)* ';'
+	@init {List<List<String>> ruleList = new ArrayList<>();}
+	: NONTERMINAL SPACE? ':' nontermrightpart{ruleList.add($nontermrightpart.val);} ('|' nontermrightpart{ruleList.add($nontermrightpart.val);})* ';'
+	{rules.put(new Nonterminal($NONTERMINAL.text), ruleList);}
 	;
 	
-nontermrightpart
-	: SPACE? ((NONTERMINAL | TERMINAL | ('\'' SYMBOL* '\'')) SPACE)*
+nontermrightpart returns [List<String> val]
+	@init {List<String> ruleElements = new ArrayList<>();}
+	: SPACE? ((NONTERMINAL{ruleElements.add($NONTERMINAL.text);} | TERMINAL{ruleElements.add($TERMINAL.text);}) SPACE)*
+	{$val = ruleElements;}
 	;
-    
+	
 SPACE 		: [ \t\r\n]+;
 NONTERMINAL	: [a-z]+[a-zA-Z]*;
 TERMINAL	: [A-Z]+;

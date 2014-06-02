@@ -28,9 +28,15 @@ public class Grammar {
 		GrammarParser parser = new GrammarParser(tokens);
 		RuleContext tree = parser.gram();
 		tree.inspect(parser);
-		
+
 		for (Terminal term : parser.terminals) {
 			System.out.println(term.get() + "---" + term.match());
+		}
+		System.out.println("---------");
+		for (Nonterminal nonterm : parser.grammaRules.keySet()) {
+			for (Rule rule : parser.grammaRules.get(nonterm)) {
+				System.out.println(nonterm.get() + "---" + rule.toString());
+			}
 		}
 
 		// try (BufferedReader bf = new BufferedReader(new FileReader(file))) {
@@ -72,92 +78,92 @@ public class Grammar {
 		// }
 	}
 
-//	public boolean contains(Terminal term) {
-//		return terminals.contains(term);
-//	}
-//
-//	private Map<Nonterminal, Set<Terminal>> first = null;
-//
-//	public Map<Nonterminal, Set<Terminal>> getFirst() {
-//		if (first == null) {
-//			first = new HashMap<>();
-//			for (Nonterminal nonterm : nonterminals) {
-//				first.put(nonterm, new HashSet<Terminal>());
-//			}
-//			boolean isChange = true;
-//			while (isChange) {
-//				isChange = false;
-//				for (Nonterminal nonterm : nonterminals) {
-//					int size = first.get(nonterm).size();
-//					for (Rule rule : rules.get(nonterm)) {
-//						if (rule.getTo(0).isTerm()) {
-//							first.get(nonterm).add((Terminal) rule.getTo(0));
-//						} else {
-//							first.get(nonterm).addAll(genFirst(rule, 0));
-//						}
-//					}
-//					if (first.get(nonterm).size() != size) {
-//						isChange = true;
-//					}
-//				}
-//			}
-//		}
-//		return first;
-//	}
-//
-//	private Set<Terminal> genFirst(Rule rule, int index) {
-//		Set<Terminal> res = new HashSet<>();
-//		if (rule.size() == index) {
-//			return res;
-//		}
-//
-//		if (!rule.getTo(index).isTerm()) {
-//			res.addAll(first.get(rule.getTo(index)));
-//			if (res.contains(Terminal.EPS)) {
-//				res.addAll(genFirst(rule, index + 1));
-//			}
-//		} else {
-//			res.add((Terminal) rule.getTo(index));
-//		}
-//
-//		return res;
-//	}
-//
-//	private Map<Nonterminal, Set<Terminal>> follow = null;
-//
-//	public Map<Nonterminal, Set<Terminal>> getFollow() {
-//		follow = new HashMap<>();
-//		for (Nonterminal nonterm : nonterminals) {
-//			follow.put(nonterm, new HashSet<Terminal>());
-//		}
-//		getFirst();
-//		follow.get(start).add(Terminal.END);
-//		boolean isChange = true;
-//		while (isChange) {
-//			isChange = false;
-//			for (Nonterminal nonterm : nonterminals) {
-//				for (Rule rule : rules.get(nonterm)) {
-//					for (int i = 0; i < rule.size(); i++) {
-//						if (!rule.getTo(i).isTerm()) {
-//							Nonterminal b = (Nonterminal) rule.getTo(i);
-//							Set<Terminal> gammaFirst = genFirst(rule, i + 1);
-//							boolean isContainsEps = gammaFirst
-//									.remove(Terminal.EPS);
-//							int size = follow.get(b).size();
-//							follow.get(b).addAll(gammaFirst);
-//							if (isContainsEps || i + 1 == rule.size()) {
-//								follow.get(b).addAll(follow.get(nonterm));
-//							}
-//							if (size != follow.get(b).size()) {
-//								isChange = true;
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//		return follow;
-//	}
+	// public boolean contains(Terminal term) {
+	// return terminals.contains(term);
+	// }
+	//
+	// private Map<Nonterminal, Set<Terminal>> first = null;
+	//
+	// public Map<Nonterminal, Set<Terminal>> getFirst() {
+	// if (first == null) {
+	// first = new HashMap<>();
+	// for (Nonterminal nonterm : nonterminals) {
+	// first.put(nonterm, new HashSet<Terminal>());
+	// }
+	// boolean isChange = true;
+	// while (isChange) {
+	// isChange = false;
+	// for (Nonterminal nonterm : nonterminals) {
+	// int size = first.get(nonterm).size();
+	// for (Rule rule : rules.get(nonterm)) {
+	// if (rule.getTo(0).isTerm()) {
+	// first.get(nonterm).add((Terminal) rule.getTo(0));
+	// } else {
+	// first.get(nonterm).addAll(genFirst(rule, 0));
+	// }
+	// }
+	// if (first.get(nonterm).size() != size) {
+	// isChange = true;
+	// }
+	// }
+	// }
+	// }
+	// return first;
+	// }
+	//
+	// private Set<Terminal> genFirst(Rule rule, int index) {
+	// Set<Terminal> res = new HashSet<>();
+	// if (rule.size() == index) {
+	// return res;
+	// }
+	//
+	// if (!rule.getTo(index).isTerm()) {
+	// res.addAll(first.get(rule.getTo(index)));
+	// if (res.contains(Terminal.EPS)) {
+	// res.addAll(genFirst(rule, index + 1));
+	// }
+	// } else {
+	// res.add((Terminal) rule.getTo(index));
+	// }
+	//
+	// return res;
+	// }
+	//
+	// private Map<Nonterminal, Set<Terminal>> follow = null;
+	//
+	// public Map<Nonterminal, Set<Terminal>> getFollow() {
+	// follow = new HashMap<>();
+	// for (Nonterminal nonterm : nonterminals) {
+	// follow.put(nonterm, new HashSet<Terminal>());
+	// }
+	// getFirst();
+	// follow.get(start).add(Terminal.END);
+	// boolean isChange = true;
+	// while (isChange) {
+	// isChange = false;
+	// for (Nonterminal nonterm : nonterminals) {
+	// for (Rule rule : rules.get(nonterm)) {
+	// for (int i = 0; i < rule.size(); i++) {
+	// if (!rule.getTo(i).isTerm()) {
+	// Nonterminal b = (Nonterminal) rule.getTo(i);
+	// Set<Terminal> gammaFirst = genFirst(rule, i + 1);
+	// boolean isContainsEps = gammaFirst
+	// .remove(Terminal.EPS);
+	// int size = follow.get(b).size();
+	// follow.get(b).addAll(gammaFirst);
+	// if (isContainsEps || i + 1 == rule.size()) {
+	// follow.get(b).addAll(follow.get(nonterm));
+	// }
+	// if (size != follow.get(b).size()) {
+	// isChange = true;
+	// }
+	// }
+	// }
+	// }
+	// }
+	// }
+	// return follow;
+	// }
 
 	@Override
 	public String toString() {
