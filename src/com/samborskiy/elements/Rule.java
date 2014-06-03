@@ -23,7 +23,7 @@ public class Rule {
 		for (Element elem : to) {
 			sb.append(" " + elem.get());
 		}
-		return sb.toString();
+		return sb.toString().substring(1);
 	}
 
 }

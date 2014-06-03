@@ -50,6 +50,7 @@ public class GrammarParser extends Parser {
 
 		public Set<Terminal> terminals = new HashSet<>();
 		public Map<Nonterminal, List<Rule>> grammaRules = new HashMap<>();
+		public Terminal skipTerm = null;
 		
 		private Map<Nonterminal, List<List<String>>> rules = new HashMap<>();
 		private boolean hasEpsTerm = false;
@@ -124,7 +125,7 @@ public class GrammarParser extends Parser {
 			}
 			setState(21); match(EOF);
 
-					terminals.add(new Terminal("EPS", ""));
+					terminals.add(Terminal.EPS);
 					for (Nonterminal nonterm : rules.keySet()) {
 						List<Rule> newRules = new ArrayList<>();
 						for (List<String> list : rules.get(nonterm)) {
@@ -141,7 +142,7 @@ public class GrammarParser extends Parser {
 						}
 						grammaRules.put(nonterm, newRules);
 					}
-					if (!hasEpsTerm) terminals.remove(new Terminal("EPS", ""));
+					if (!hasEpsTerm) terminals.remove(Terminal.EPS);
 				
 			}
 		}

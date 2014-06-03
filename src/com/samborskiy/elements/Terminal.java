@@ -2,9 +2,8 @@ package com.samborskiy.elements;
 
 public class Terminal implements Element {
 
-	// public static final Terminal EPS = new Terminal("EPS");
-	// public static final Terminal END = new Terminal("$");
-	// public static final Terminal NUM = new Terminal("n");
+	public static final Terminal EPS = new Terminal("EPS", "");
+	public static final Terminal END = new Terminal("END", "$");
 
 	private String name;
 	private String matchValue;

@@ -9,6 +9,7 @@ grammar Grammar;
 @parser::members {
 	public Set<Terminal> terminals = new HashSet<>();
 	public Map<Nonterminal, List<Rule>> grammaRules = new HashMap<>();
+	public Terminal skipTerm = null;
 	
 	private Map<Nonterminal, List<List<String>>> rules = new HashMap<>();
 	private boolean hasEpsTerm = false;
@@ -27,7 +28,7 @@ grammar Grammar;
 gram
 	: (rules SPACE?)* EOF
 	{
-		terminals.add(new Terminal("EPS", ""));
+		terminals.add(Terminal.EPS);
 		for (Nonterminal nonterm : rules.keySet()) {
 			List<Rule> newRules = new ArrayList<>();
 			for (List<String> list : rules.get(nonterm)) {
@@ -44,7 +45,7 @@ gram
 			}
 			grammaRules.put(nonterm, newRules);
 		}
-		if (!hasEpsTerm) terminals.remove(new Terminal("EPS", ""));
+		if (!hasEpsTerm) terminals.remove(Terminal.EPS);
 	}
 	;
 	
