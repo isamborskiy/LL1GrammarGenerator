@@ -9,7 +9,6 @@ grammar Grammar;
 @parser::members {
 	public Set<Terminal> terminals = new HashSet<>();
 	public Map<Nonterminal, List<Rule>> grammaRules = new HashMap<>();
-	public Terminal skipTerm = null;
 	
 	private Map<Nonterminal, List<List<String>>> rules = new HashMap<>();
 	private boolean hasEpsTerm = false;
