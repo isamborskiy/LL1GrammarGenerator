@@ -50,11 +50,14 @@ public class GrammarParser extends Parser {
 
 		public Set<Terminal> terminals = new HashSet<>();
 		public Map<Nonterminal, List<Rule>> grammaRules = new HashMap<>();
+		
 		private Map<Nonterminal, List<List<String>>> rules = new HashMap<>();
+		private boolean hasEpsTerm = false;
 		
 		private Terminal findTerm(String str) {
 			for (Terminal term : terminals) {
 				if (term.get().equals(str)) {
+					if (term.get().equals("EPS")) hasEpsTerm = true;
 					return term;
 				}
 			}
@@ -121,6 +124,7 @@ public class GrammarParser extends Parser {
 			}
 			setState(21); match(EOF);
 
+					terminals.add(new Terminal("EPS", ""));
 					for (Nonterminal nonterm : rules.keySet()) {
 						List<Rule> newRules = new ArrayList<>();
 						for (List<String> list : rules.get(nonterm)) {
@@ -137,6 +141,7 @@ public class GrammarParser extends Parser {
 						}
 						grammaRules.put(nonterm, newRules);
 					}
+					if (!hasEpsTerm) terminals.remove(new Terminal("EPS", ""));
 				
 			}
 		}
@@ -328,7 +333,7 @@ public class GrammarParser extends Parser {
 					}
 				}
 
-				((TermrightpartContext)_localctx).val =  "\'" + res + "\'";
+				((TermrightpartContext)_localctx).val =  res;
 				}
 				break;
 

@@ -9,11 +9,14 @@ grammar Grammar;
 @parser::members {
 	public Set<Terminal> terminals = new HashSet<>();
 	public Map<Nonterminal, List<Rule>> grammaRules = new HashMap<>();
+	
 	private Map<Nonterminal, List<List<String>>> rules = new HashMap<>();
+	private boolean hasEpsTerm = false;
 	
 	private Terminal findTerm(String str) {
 		for (Terminal term : terminals) {
 			if (term.get().equals(str)) {
+				if (term.get().equals("EPS")) hasEpsTerm = true;
 				return term;
 			}
 		}
@@ -24,6 +27,7 @@ grammar Grammar;
 gram
 	: (rules SPACE?)* EOF
 	{
+		terminals.add(new Terminal("EPS", ""));
 		for (Nonterminal nonterm : rules.keySet()) {
 			List<Rule> newRules = new ArrayList<>();
 			for (List<String> list : rules.get(nonterm)) {
@@ -40,6 +44,7 @@ gram
 			}
 			grammaRules.put(nonterm, newRules);
 		}
+		if (!hasEpsTerm) terminals.remove(new Terminal("EPS", ""));
 	}
 	;
 	
@@ -56,7 +61,7 @@ term
 termrightpart returns [String val]
 	@init {String res = "";}
 	: SPACE? '\'' (SYMBOL{res += $SYMBOL.text;})* '\'' SPACE?
-	{$val = "\'" + res + "\'";}
+	{$val = res;}
 	| SPACE? '[' (SYMBOL{res += $SYMBOL.text;})* ']' SPACE?
 	{$val = "[" + res + "]";}
 	;
