@@ -10,14 +10,18 @@ grammar Grammar;
 	public Set<Terminal> terminals = new HashSet<>();
 	public Map<Nonterminal, List<Rule>> grammaRules = new HashMap<>();
 	public String grammarName = "";
+	public boolean hasError = false;
+	public String errorMessage = "";
 	
 	private Map<Nonterminal, List<List<String>>> rules = new HashMap<>();
 	private boolean hasEpsTerm = false;
+	private boolean hasWSTerm = false;
 	
 	private Terminal findTerm(String str) {
 		for (Terminal term : terminals) {
 			if (term.get().equals(str)) {
 				if (term.get().equals("EPS")) hasEpsTerm = true;
+				if (term.get().equals("WS")) hasWSTerm = true;
 				return term;
 			}
 		}
@@ -29,7 +33,12 @@ gram
 	: 'grammar' SPACE? NAME SPACE? ';' SPACE? (rules SPACE?)* EOF
 	{
 		grammarName = $NAME.text;
+		if (terminals.contains(Terminal.EPS) || terminals.contains(Terminal.WS)) {
+			errorMessage = "EPS, WS are reserved names";
+			hasError = true;
+		}
 		terminals.add(Terminal.EPS);
+		terminals.add(Terminal.WS);
 		for (Nonterminal nonterm : rules.keySet()) {
 			List<Rule> newRules = new ArrayList<>();
 			for (List<String> list : rules.get(nonterm)) {
@@ -47,6 +56,7 @@ gram
 			grammaRules.put(nonterm, newRules);
 		}
 		if (!hasEpsTerm) terminals.remove(Terminal.EPS);
+		if (!hasWSTerm) terminals.remove(Terminal.WS);
 	}
 	;
 	

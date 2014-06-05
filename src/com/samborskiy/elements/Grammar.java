@@ -22,7 +22,7 @@ public class Grammar {
 	private Nonterminal start;
 	private String grammarName = "";
 
-	public Grammar(String... args) throws IOException {
+	public Grammar(String... args) throws Exception {
 		if (args.length != 3) {
 			throw new IllegalArgumentException(
 					"Usage: <gramma file> <start nonterminal> <input file>");
@@ -39,6 +39,10 @@ public class Grammar {
 		GrammarParser parser = new GrammarParser(tokens);
 		RuleContext tree = parser.gram();
 		// tree.inspect(parser);
+
+		if (parser.hasError) {
+			throw new Exception(parser.errorMessage);
+		}
 
 		rules = parser.grammaRules;
 		terminals = parser.terminals;

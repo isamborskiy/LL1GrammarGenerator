@@ -3,6 +3,7 @@ package com.samborskiy.elements;
 public class Terminal implements Element {
 
 	public static final Terminal EPS = new Terminal("EPS", "");
+	public static final Terminal WS = new Terminal("WS", " \t\r\n");
 	public static final Terminal END = new Terminal("END", "$");
 
 	private String name;
