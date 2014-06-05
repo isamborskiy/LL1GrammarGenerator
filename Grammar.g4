@@ -25,7 +25,7 @@ grammar Grammar;
 }
 
 gram
-	: (rules SPACE?)* EOF
+	: 'grammar' SPACE? NAME SPACE? ';' SPACE? (rules SPACE?)* EOF
 	{
 		terminals.add(Terminal.EPS);
 		for (Nonterminal nonterm : rules.keySet()) {
@@ -81,4 +81,5 @@ nontermrightpart returns [List<String> val]
 SPACE 		: [ \t\r\n]+;
 NONTERMINAL	: [a-z]+[a-zA-Z]*;
 TERMINAL	: [A-Z]+;
+NAME		: [A-Z]+[a-zA-Z]*;
 SYMBOL		: [0-9a-zA-Z+\-*\\];
