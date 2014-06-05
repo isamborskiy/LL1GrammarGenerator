@@ -50,6 +50,7 @@ public class GrammarParser extends Parser {
 
 		public Set<Terminal> terminals = new HashSet<>();
 		public Map<Nonterminal, List<Rule>> grammaRules = new HashMap<>();
+		public String grammarName = "";
 		
 		private Map<Nonterminal, List<List<String>>> rules = new HashMap<>();
 		private boolean hasEpsTerm = false;
@@ -69,6 +70,7 @@ public class GrammarParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class GramContext extends ParserRuleContext {
+		public Token NAME;
 		public TerminalNode NAME() { return getToken(GrammarParser.NAME, 0); }
 		public RulesContext rules(int i) {
 			return getRuleContext(RulesContext.class,i);
@@ -111,7 +113,7 @@ public class GrammarParser extends Parser {
 				}
 			}
 
-			setState(16); match(NAME);
+			setState(16); ((GramContext)_localctx).NAME = match(NAME);
 			setState(18);
 			_la = _input.LA(1);
 			if (_la==SPACE) {
@@ -152,6 +154,7 @@ public class GrammarParser extends Parser {
 			}
 			setState(33); match(EOF);
 
+					grammarName = (((GramContext)_localctx).NAME!=null?((GramContext)_localctx).NAME.getText():null);
 					terminals.add(Terminal.EPS);
 					for (Nonterminal nonterm : rules.keySet()) {
 						List<Rule> newRules = new ArrayList<>();

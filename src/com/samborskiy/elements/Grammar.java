@@ -20,6 +20,7 @@ public class Grammar {
 	private Map<Nonterminal, List<Rule>> rules = new HashMap<>();
 	private Set<Terminal> terminals = new HashSet<>();
 	private Nonterminal start;
+	private String grammarName = "";
 
 	public Grammar(String... args) throws IOException {
 		if (args.length != 3) {
@@ -41,6 +42,7 @@ public class Grammar {
 
 		rules = parser.grammaRules;
 		terminals = parser.terminals;
+		grammarName = parser.grammarName;
 		start = new Nonterminal(args[1]);
 		if (!rules.keySet().contains(start)) {
 			throw new IllegalArgumentException("Nonterminal " + args[1]
@@ -140,7 +142,7 @@ public class Grammar {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("Nonterminals:");
+		sb.append("Grammar name: " + grammarName + "\nNonterminals:");
 		for (Nonterminal nonterm : rules.keySet()) {
 			sb.append(" " + nonterm.get());
 		}
