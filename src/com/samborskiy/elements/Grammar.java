@@ -17,11 +17,11 @@ import com.samborskiy.antlr.GrammarParser;
 
 public class Grammar {
 
-	private Map<Nonterminal, List<Rule>> rules = new HashMap<>();
-	private Set<Terminal> terminals = new HashSet<>();
-	private Nonterminal start;
-	private Terminal skipTerminal;
-	private String grammarName = "";
+	public Map<Nonterminal, List<Rule>> rules = new HashMap<>();
+	public Set<Terminal> terminals = new HashSet<>();
+	public Nonterminal start;
+	public Terminal skipTerminal;
+	public String grammarName = "";
 
 	public Grammar(String... args) throws Exception {
 		if (args.length != 3) {
@@ -55,18 +55,6 @@ public class Grammar {
 					+ " does not exist");
 		}
 
-	}
-
-	public Set<Terminal> getTerminals() {
-		Set<Terminal> newTerminals = new HashSet<>();
-		for (Terminal term : terminals) {
-			newTerminals.add(term);
-		}
-		return newTerminals;
-	}
-	
-	public Terminal getSkipTerminal() {
-		return new Terminal(skipTerminal.get(), skipTerminal.match());
 	}
 
 	private Map<Nonterminal, Set<Terminal>> first = null;

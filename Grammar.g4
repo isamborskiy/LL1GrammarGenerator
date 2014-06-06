@@ -30,7 +30,7 @@ grammar Grammar;
 
 gram
 	@init{String name = "";}
-	: 'grammar' (SYMBOL{name += $SYMBOL.text;})+ ';' (rules)* EOF
+	: 'grammar' (SYMBOL{name += $SYMBOL.text;})+ ';' (rules)* SYMBOL* EOF
 	{
 		grammarName = name.replaceAll("\\s+", "");
 		if (terminals.contains(Terminal.EPS) || terminals.contains(Terminal.END)) {
