@@ -1,6 +1,6 @@
 grammar Postfix;
 
-s
+s	
 	: n a
 	| EPS
 	;
@@ -15,5 +15,6 @@ n
 	| N
 	;
 
-SIGN: [+\-*];
+SIGN: [+\-*\\[\\]];
 N	: [0-9];
+SKIP: [ \t\r\n] -> skip;

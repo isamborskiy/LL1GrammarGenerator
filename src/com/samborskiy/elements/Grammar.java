@@ -2,6 +2,7 @@ package com.samborskiy.elements;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +39,7 @@ public class Grammar {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokens);
 		RuleContext tree = parser.gram();
-		// tree.inspect(parser);
+		tree.inspect(parser);
 
 		if (parser.hasError) {
 			throw new Exception(parser.errorMessage);
@@ -55,8 +56,12 @@ public class Grammar {
 
 	}
 
-	public boolean contains(Terminal term) {
-		return terminals.contains(term);
+	public Set<Terminal> getTerminals() {
+		Set<Terminal> newTerminals = new HashSet<>();
+		for (Terminal term : terminals) {
+			newTerminals.add(term);
+		}
+		return newTerminals;
 	}
 
 	private Map<Nonterminal, Set<Terminal>> first = null;

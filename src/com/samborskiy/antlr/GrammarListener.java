@@ -57,6 +57,17 @@ public interface GrammarListener extends ParseTreeListener {
 	void exitGram(@NotNull GrammarParser.GramContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link GrammarParser#name}.
+	 * @param ctx the parse tree
+	 */
+	void enterName(@NotNull GrammarParser.NameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#name}.
+	 * @param ctx the parse tree
+	 */
+	void exitName(@NotNull GrammarParser.NameContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link GrammarParser#rules}.
 	 * @param ctx the parse tree
 	 */
@@ -77,4 +88,15 @@ public interface GrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTerm(@NotNull GrammarParser.TermContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#skip}.
+	 * @param ctx the parse tree
+	 */
+	void enterSkip(@NotNull GrammarParser.SkipContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#skip}.
+	 * @param ctx the parse tree
+	 */
+	void exitSkip(@NotNull GrammarParser.SkipContext ctx);
 }
