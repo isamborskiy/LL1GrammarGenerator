@@ -277,6 +277,9 @@ public class GrammarParser extends Parser {
 						errorMessage = "Incorrect grammar file: terminal name \'" + ((TermContext)_localctx).name.val + "\'.";
 						hasError = true;
 					}
+					if (errorMessage.equals("Incorrect grammar file: use EPS terminal")) {
+						errorMessage += " instead of " + ((TermContext)_localctx).name.val + ".";
+					}
 				
 			}
 		}
@@ -345,6 +348,10 @@ public class GrammarParser extends Parser {
 						((TermrightpartContext)_localctx).val =  res.substring(start + 1, end);
 					} else {
 						errorMessage = "Incorrect grammar file: terminal recording.";
+						hasError = true;
+					}
+					if (_localctx.val.equals("[]") || _localctx.val.isEmpty()) {
+						errorMessage = "Incorrect grammar file: use EPS terminal";
 						hasError = true;
 					}
 				

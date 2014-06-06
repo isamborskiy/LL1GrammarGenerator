@@ -10,9 +10,11 @@ import com.samborskiy.elements.Terminal;
 
 public class Lexer {
 	private StringBuilder input;
-	private int curPos = 0;
+	private int curTokenNumber = 0;
 	private List<String> tokens = new ArrayList<>();
 	private Set<Terminal> terminals;
+	private Terminal skip;
+	private int curPos = 0;
 
 	public Lexer(String fileName, Grammar grammar) throws IOException {
 		BufferedReader bf = new BufferedReader(new FileReader(fileName));
@@ -21,13 +23,17 @@ public class Lexer {
 			input.append(line);
 		}
 		terminals = grammar.getTerminals();
+		skip = grammar.getSkipTerminal();
 	}
-	
+
 	private void parse() {
-		
+	}
+
+	private boolean isBlank(char symbol) {
+		return new String(new char[]{symbol}).matches(skip.match());
 	}
 
 	public String nextToken() {
-		return tokens.get(curPos++);
+		return tokens.get(curTokenNumber++);
 	}
 }

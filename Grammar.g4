@@ -73,6 +73,9 @@ term
 			errorMessage = "Incorrect grammar file: terminal name \'" + $name.val + "\'.";
 			hasError = true;
 		}
+		if (errorMessage.equals("Incorrect grammar file: use EPS terminal")) {
+			errorMessage += " instead of " + $name.val + ".";
+		}
 	}
 	;
 	
@@ -90,6 +93,10 @@ termrightpart returns [String val]
 			$val = res.substring(start + 1, end);
 		} else {
 			errorMessage = "Incorrect grammar file: terminal recording.";
+			hasError = true;
+		}
+		if ($val.equals("[]") || $val.isEmpty()) {
+			errorMessage = "Incorrect grammar file: use EPS terminal";
 			hasError = true;
 		}
 	}

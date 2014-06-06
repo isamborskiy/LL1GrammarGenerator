@@ -39,7 +39,7 @@ public class Grammar {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokens);
 		RuleContext tree = parser.gram();
-		tree.inspect(parser);
+//		tree.inspect(parser);
 
 		if (parser.hasError) {
 			throw new Exception(parser.errorMessage);
@@ -63,6 +63,10 @@ public class Grammar {
 			newTerminals.add(term);
 		}
 		return newTerminals;
+	}
+	
+	public Terminal getSkipTerminal() {
+		return new Terminal(skipTerminal.get(), skipTerminal.match());
 	}
 
 	private Map<Nonterminal, Set<Terminal>> first = null;
