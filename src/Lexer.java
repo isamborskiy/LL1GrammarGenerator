@@ -33,10 +33,6 @@ public class Lexer {
 		} else {
 			parse(input.toString());
 		}
-
-		for (String token : tokens) {
-			System.out.println(token);
-		}
 	}
 
 	private void parse(String str) throws ParseException {
@@ -63,7 +59,8 @@ public class Lexer {
 		if (curTerm != null) {
 			tokens.add(cur);
 		} else {
-			throw new ParseException("Can not match string \"" + cur + "\"", input.length());
+			throw new ParseException("Can not match string \"" + cur + "\"",
+					input.length());
 		}
 	}
 

@@ -3,6 +3,7 @@ grammar Grammar;
 @header {
 	package com.samborskiy.antlr;
 	import java.util.*; 
+	import java.io.*; 
 	import com.samborskiy.elements.*;
 }
 
@@ -29,10 +30,9 @@ grammar Grammar;
 }
 
 gram
-	@init{String name = "";}
-	: 'grammar' (SYMBOL{name += $SYMBOL.text;})+ ';' (rules)* SYMBOL* EOF
+	: 'grammar' name ';' (rules)* SYMBOL* EOF
 	{
-		grammarName = name.replaceAll("\\s+", "");
+		grammarName = $name.val;
 		if (terminals.contains(Terminal.EPS) || terminals.contains(Terminal.END)) {
 			errorMessage = "EPS and END are reserved names.";
 			hasError = true;
@@ -55,6 +55,15 @@ gram
 			grammaRules.put(nonterm, newRules);
 		}
 		if (!hasEpsTerm) terminals.remove(Terminal.EPS);
+		try {
+			PrintWriter pw = new PrintWriter(grammarName + ".tokens");
+			for (Terminal term : terminals) {
+				pw.println(term.get() + ":" + term.match());
+			}
+			pw.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 	;
 	
