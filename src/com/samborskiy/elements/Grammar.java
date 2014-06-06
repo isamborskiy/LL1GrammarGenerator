@@ -2,7 +2,6 @@ package com.samborskiy.elements;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +20,7 @@ public class Grammar {
 	private Map<Nonterminal, List<Rule>> rules = new HashMap<>();
 	private Set<Terminal> terminals = new HashSet<>();
 	private Nonterminal start;
+	private Terminal skipTerminal;
 	private String grammarName = "";
 
 	public Grammar(String... args) throws Exception {
@@ -48,6 +48,7 @@ public class Grammar {
 		rules = parser.grammaRules;
 		terminals = parser.terminals;
 		grammarName = parser.grammarName;
+		skipTerminal = parser.skipTerminal;
 		start = new Nonterminal(args[1]);
 		if (!rules.keySet().contains(start)) {
 			throw new IllegalArgumentException("Nonterminal " + args[1]
@@ -159,6 +160,7 @@ public class Grammar {
 		for (Terminal term : terminals) {
 			sb.append(" " + term.get());
 		}
+		sb.append("\nSkip: " + (skipTerminal == null ? "" : skipTerminal.match()));
 		sb.append("\nStart: " + start.toString() + "\n");
 		for (Nonterminal nonterm : rules.keySet()) {
 			for (Rule rule : rules.get(nonterm)) {
