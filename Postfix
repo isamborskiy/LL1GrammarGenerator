@@ -1,33 +1,33 @@
 grammar Postfix;
 
 s[int i] returns [String val]	
-	| e EOF
+	| e[i] EOF
 	| EPS EOF
 	;
 
-e
-	| t es
+e[int i]
+	| t[i] es[i]
 	;
 	
-es
-	| OR t es
-	| XOR t es
+es[int i]
+	| OR t[i] es[i]
+	| XOR t[i] es[i]
 	| EPS
 	;
 	
-t
-	| f ts
+t[int i]
+	| f[i] ts[i]
 	;
 	
-ts	
-	| AND f ts
+ts[int i]
+	| AND f[i] ts[i]
 	| EPS
 	;
 	
-f
-	| NOT f
+f[int i]
+	| NOT f[i]
 	| V
-	| LEFT e RIGHT
+	| LEFT e[i] RIGHT
 	;
 	
 	

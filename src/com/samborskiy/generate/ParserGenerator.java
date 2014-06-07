@@ -24,7 +24,7 @@ public class ParserGenerator {
 			+ "_%s = new Tree(lex.curToken() + \"(\" + lex.curTerminal().get() + \")\");\n"
 			+ TAP3 + "} else {\n" + TAP4 + "throw new AssertionError();\n"
 			+ TAP3 + "}\n" + TAP3 + "lex.nextToken();\n";
-	private static final String NONTERMINAL = TAP3 + "_%s = %s();\n";
+	private static final String NONTERMINAL = TAP3 + "_%s = %s(%s);\n";
 	private static final String EPS_TERMINAL = TAP3
 			+ "_%s = new Tree(\"(EPS)\");\n";
 
@@ -123,7 +123,7 @@ public class ParserGenerator {
 				}
 			} else {
 				c.append(String.format(NONTERMINAL, String.valueOf(i),
-						elem.get()));
+						elem.get(), ((Nonterminal) elem).getInher()));
 			}
 		}
 		c.append(String.format(TAP3 + "res = new Tree(\"%s\"", nonterm.get()));

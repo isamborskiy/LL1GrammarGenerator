@@ -49,21 +49,15 @@ public class GrammarParser extends Parser {
 
 
 		public Set<Terminal> terminals = new HashSet<>();
-		public Map<Nonterminal, List<Rule>> grammaRules = new HashMap<>();
+		public Map<Nonterminal, List<Rule>> rules = new HashMap<>();
 		public String grammarName = "";
 		public Terminal skipTerminal = null;
 		public boolean hasError = false;
 		public String errorMessage = "";
 		
-		private Map<Nonterminal, List<List<String>>> rules = new HashMap<>();
-		private boolean hasEpsTerm = false;
-		private boolean hasEofTerm = false;
-		
 		private Terminal findTerm(String str) {
 			for (Terminal term : terminals) {
 				if (term.get().equals(str)) {
-					if (term.get().equals("EPS")) hasEpsTerm = true;
-					if (term.get().equals("EOF")) hasEofTerm = true;
 					return term;
 				}
 			}
@@ -150,29 +144,7 @@ public class GrammarParser extends Parser {
 						errorMessage = "EPS and EOF are reserved names.";
 						hasError = true;
 					}
-					terminals.add(Terminal.EPS);
-					terminals.add(Terminal.EOF);
-					for (Nonterminal nonterm : rules.keySet()) {
-						List<Rule> newRules = new ArrayList<>();
-						for (List<String> list : rules.get(nonterm)) {
-							Element[] elements = new Element[list.size()];
-							for (int i = 0; i < list.size(); i++) {
-								Terminal term = findTerm(list.get(i));
-								if (term == null) {
-									elements[i] = new Nonterminal(list.get(i));
-								} else {
-									elements[i] = term;
-								}
-							}
-							newRules.add(new Rule(elements));
-						}
-						grammaRules.put(nonterm, newRules);
-					}
-					if (!hasEpsTerm) terminals.remove(Terminal.EPS);
-					if (!hasEofTerm) {
-						errorMessage = "EOF not found in grammar rules.";
-						hasError = true;
-					}
+					
 					try {
 						PrintWriter pw = new PrintWriter(grammarName + ".tokens");
 						for (Terminal term : terminals) {
@@ -421,7 +393,7 @@ public class GrammarParser extends Parser {
 	public final NontermContext nonterm() throws RecognitionException {
 		NontermContext _localctx = new NontermContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_nonterm);
-		List<List<String>> ruleList = new ArrayList<>();
+		List<Rule> ruleList = new ArrayList<>();
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -485,7 +457,7 @@ public class GrammarParser extends Parser {
 	}
 
 	public static class NontermrightpartContext extends ParserRuleContext {
-		public List<String> val;
+		public Rule val;
 		public Token SYMBOL;
 		public TerminalNode SYMBOL(int i) {
 			return getToken(GrammarParser.SYMBOL, i);
@@ -528,13 +500,27 @@ public class GrammarParser extends Parser {
 				_la = _input.LA(1);
 			} while ( _la==SYMBOL );
 
-					((NontermrightpartContext)_localctx).val =  new ArrayList<>();
+					List<Element> list = new ArrayList<>();
 					String[] arr = res.split("\\s+");
-					for (String str : arr) {
+					for (int i = 0; i < arr.length; i++) {
+						String str = arr[i];
+						String inher = "";
 						if (!str.isEmpty()) {
-							_localctx.val.add(str);
+							if (str.contains("[")) {
+								inher = str.substring(str.indexOf("[") + 1, str.indexOf("]"));
+								str = str.substring(0, str.indexOf("["));
+							}
+							
+							if (str.charAt(0) >= 'a' && str.charAt(0) <= 'z') {
+								Nonterminal nonterm = new Nonterminal(str);
+								nonterm.setInher(inher);
+								list.add(nonterm);
+							} else {
+								list.add(new Terminal(str, "", false));
+							}
 						}
 					}
+					((NontermrightpartContext)_localctx).val =  new Rule(list.toArray(new Element[list.size()]));
 				
 			}
 		}

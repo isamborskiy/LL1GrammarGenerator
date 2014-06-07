@@ -35,7 +35,7 @@ public class Grammar {
 			throw new Exception(parser.errorMessage);
 		}
 
-		rules = parser.grammaRules;
+		rules = parser.rules;
 		terminals = parser.terminals;
 		grammarName = parser.grammarName;
 		skipTerminal = parser.skipTerminal;

@@ -21,7 +21,7 @@ public class PostfixParser {
 		Tree _0 = null, _1 = null;
 		switch(lex.curTerminal().get()) {
 		case "NOT":
-			_0 = e();
+			_0 = e(i);
 			if (lex.curTerminal().get().equals("EOF")) {
 				_1 = new Tree(lex.curToken() + "(" + lex.curTerminal().get() + ")");
 			} else {
@@ -31,7 +31,7 @@ public class PostfixParser {
 			res = new Tree("s", _0, _1);
 			break;
 		case "V":
-			_0 = e();
+			_0 = e(i);
 			if (lex.curTerminal().get().equals("EOF")) {
 				_1 = new Tree(lex.curToken() + "(" + lex.curTerminal().get() + ")");
 			} else {
@@ -41,7 +41,7 @@ public class PostfixParser {
 			res = new Tree("s", _0, _1);
 			break;
 		case "LEFT":
-			_0 = e();
+			_0 = e(i);
 			if (lex.curTerminal().get().equals("EOF")) {
 				_1 = new Tree(lex.curToken() + "(" + lex.curTerminal().get() + ")");
 			} else {
@@ -66,23 +66,23 @@ public class PostfixParser {
 		return res;
 	}
 
-	private Tree t() {
+	private Tree t(int i) {
 		Tree res = null;
 		Tree _0 = null, _1 = null;
 		switch(lex.curTerminal().get()) {
 		case "NOT":
-			_0 = f();
-			_1 = ts();
+			_0 = f(i);
+			_1 = ts(i);
 			res = new Tree("t", _0, _1);
 			break;
 		case "V":
-			_0 = f();
-			_1 = ts();
+			_0 = f(i);
+			_1 = ts(i);
 			res = new Tree("t", _0, _1);
 			break;
 		case "LEFT":
-			_0 = f();
-			_1 = ts();
+			_0 = f(i);
+			_1 = ts(i);
 			res = new Tree("t", _0, _1);
 			break;
 		default:
@@ -91,23 +91,23 @@ public class PostfixParser {
 		return res;
 	}
 
-	private Tree e() {
+	private Tree e(int i) {
 		Tree res = null;
 		Tree _0 = null, _1 = null;
 		switch(lex.curTerminal().get()) {
 		case "NOT":
-			_0 = t();
-			_1 = es();
+			_0 = t(i);
+			_1 = es(i);
 			res = new Tree("e", _0, _1);
 			break;
 		case "V":
-			_0 = t();
-			_1 = es();
+			_0 = t(i);
+			_1 = es(i);
 			res = new Tree("e", _0, _1);
 			break;
 		case "LEFT":
-			_0 = t();
-			_1 = es();
+			_0 = t(i);
+			_1 = es(i);
 			res = new Tree("e", _0, _1);
 			break;
 		default:
@@ -116,7 +116,7 @@ public class PostfixParser {
 		return res;
 	}
 
-	private Tree f() {
+	private Tree f(int i) {
 		Tree res = null;
 		Tree _0 = null, _1 = null, _2 = null;
 		switch(lex.curTerminal().get()) {
@@ -127,7 +127,7 @@ public class PostfixParser {
 				throw new AssertionError();
 			}
 			lex.nextToken();
-			_1 = f();
+			_1 = f(i);
 			res = new Tree("f", _0, _1);
 			break;
 		case "V":
@@ -146,7 +146,7 @@ public class PostfixParser {
 				throw new AssertionError();
 			}
 			lex.nextToken();
-			_1 = e();
+			_1 = e(i);
 			if (lex.curTerminal().get().equals("RIGHT")) {
 				_2 = new Tree(lex.curToken() + "(" + lex.curTerminal().get() + ")");
 			} else {
@@ -161,7 +161,7 @@ public class PostfixParser {
 		return res;
 	}
 
-	private Tree es() {
+	private Tree es(int i) {
 		Tree res = null;
 		Tree _0 = null, _1 = null, _2 = null;
 		switch(lex.curTerminal().get()) {
@@ -172,8 +172,8 @@ public class PostfixParser {
 				throw new AssertionError();
 			}
 			lex.nextToken();
-			_1 = t();
-			_2 = es();
+			_1 = t(i);
+			_2 = es(i);
 			res = new Tree("es", _0, _1, _2);
 			break;
 		case "XOR":
@@ -183,8 +183,8 @@ public class PostfixParser {
 				throw new AssertionError();
 			}
 			lex.nextToken();
-			_1 = t();
-			_2 = es();
+			_1 = t(i);
+			_2 = es(i);
 			res = new Tree("es", _0, _1, _2);
 			break;
 		case "EOF":
@@ -201,7 +201,7 @@ public class PostfixParser {
 		return res;
 	}
 
-	private Tree ts() {
+	private Tree ts(int i) {
 		Tree res = null;
 		Tree _0 = null, _1 = null, _2 = null;
 		switch(lex.curTerminal().get()) {
@@ -212,8 +212,8 @@ public class PostfixParser {
 				throw new AssertionError();
 			}
 			lex.nextToken();
-			_1 = f();
-			_2 = ts();
+			_1 = f(i);
+			_2 = ts(i);
 			res = new Tree("ts", _0, _1, _2);
 			break;
 		case "OR":
