@@ -171,6 +171,10 @@ public class GrammarParser extends Parser {
 						for (Terminal term : terminals) {
 							pw.println(term.get() + ":" + term.match());
 						}
+						if (skipTerminal != null) {
+							pw.println();
+							pw.println(skipTerminal.get() + ":" + skipTerminal.match());
+						}
 						pw.close();
 					} catch(IOException e) {
 						e.printStackTrace();

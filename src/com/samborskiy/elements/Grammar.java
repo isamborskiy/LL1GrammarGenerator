@@ -1,7 +1,5 @@
 package com.samborskiy.elements;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,7 +8,6 @@ import java.util.Set;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.RuleContext;
 
 import com.samborskiy.antlr.GrammarLexer;
 import com.samborskiy.antlr.GrammarParser;
@@ -24,21 +21,12 @@ public class Grammar {
 	public String grammarName = "";
 
 	public Grammar(String... args) throws Exception {
-		if (args.length != 3) {
-			throw new IllegalArgumentException(
-					"Usage: <gramma file> <start nonterminal> <input file>");
-		}
-		if (!new File(args[0]).exists()) {
-			throw new IOException("File " + args[0] + " does not exist");
-		}
-		if (!new File(args[2]).exists()) {
-			throw new IOException("File " + args[2] + " does not exist");
-		}
 		ANTLRFileStream input = new ANTLRFileStream(args[0]);
 		GrammarLexer lexer = new GrammarLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokens);
-		RuleContext tree = parser.gram();
+		parser.gram();
+//		RuleContext tree = parser.gram();
 //		tree.inspect(parser);
 
 		if (parser.hasError) {
