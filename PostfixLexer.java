@@ -14,6 +14,7 @@ public class PostfixLexer {
 	private StringBuilder input = new StringBuilder();
 	private int curTokenNumber = 0;
 	private List<String> tokens = new ArrayList<>();
+	private List<Terminal> tokenToTerm = new ArrayList<>();
 	private List<Terminal> terminals = new ArrayList<>();
 	private Terminal skipTerminal;
 
@@ -48,6 +49,9 @@ public class PostfixLexer {
 		} else {
 			parse(input.toString());
 		}
+		
+		tokens.add("");
+		tokenToTerm.add(Terminal.EOF);
 	}
 
 	private void parse(String str) throws ParseException {
@@ -58,6 +62,7 @@ public class PostfixLexer {
 			if (curTerm != null) {
 				if (!cur.matches(curTerm.match())) {
 					tokens.add(cur.substring(0, cur.length() - 1));
+					tokenToTerm.add(curTerm);
 					cur = "" + str.charAt(i);
 					curTerm = null;
 				}
@@ -73,13 +78,22 @@ public class PostfixLexer {
 		}
 		if (curTerm != null) {
 			tokens.add(cur);
+			tokenToTerm.add(curTerm);
 		} else {
 			throw new ParseException("Can not match string \"" + cur + "\"", input.length());
 		}
 	}
 
-	public String nextToken() {
-		return tokens.get(curTokenNumber++);
+	public void nextToken() {
+		curTokenNumber++;
+	}
+	
+	public String curToken() {
+		return tokens.get(curTokenNumber);
+	}
+	
+	public Terminal curTerminal() {
+		return tokenToTerm.get(curTokenNumber);
 	}
 	
 	public boolean hasNextToken() {

@@ -102,7 +102,7 @@ public class Grammar {
 			follow.put(nonterm, new HashSet<Terminal>());
 		}
 		getFirst();
-		follow.get(start).add(Terminal.END);
+		follow.get(start).add(Terminal.EOF);
 		boolean isChange = true;
 		while (isChange) {
 			isChange = false;
@@ -144,10 +144,10 @@ public class Grammar {
 		}
 		sb.append("\nSkip: "
 				+ (skipTerminal == null ? "" : skipTerminal.match()));
-		sb.append("\nStart: " + start.toString() + "\n");
+		sb.append("\nStart: " + start.toString());
 		for (Nonterminal nonterm : rules.keySet()) {
 			for (Rule rule : rules.get(nonterm)) {
-				sb.append(nonterm.toString() + " -> " + rule.toString() + "\n");
+				sb.append("\n" + nonterm.toString() + " -> " + rule.toString());
 			}
 		}
 

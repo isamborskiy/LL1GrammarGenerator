@@ -14,5 +14,8 @@ public class Generator {
 			throw new IOException("File " + args[0] + " does not exist");
 		}
 		Grammar grammar = new Grammar(args);
+		System.out.println(grammar.toString());
+		System.out.println(grammar.getFirst());
+		System.out.println(grammar.getFollow());
 	}
 }

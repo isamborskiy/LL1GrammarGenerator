@@ -1,8 +1,8 @@
 grammar Postfix;
 
 s	
-	: n a
-	| EPS
+	: n a EOF
+	| EPS EOF
 	;
 
 a

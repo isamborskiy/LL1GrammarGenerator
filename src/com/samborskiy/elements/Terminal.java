@@ -3,7 +3,7 @@ package com.samborskiy.elements;
 public class Terminal implements Element {
 
 	public static final Terminal EPS = new Terminal("EPS", "");
-	public static final Terminal END = new Terminal("END", "$");
+	public static final Terminal EOF = new Terminal("EOF", "$");
 
 	private String name;
 	private String matchValue;

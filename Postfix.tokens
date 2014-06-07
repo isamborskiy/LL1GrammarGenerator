@@ -1,5 +1,6 @@
 EPS:
 SIGN:[+\-*]
+EOF:$
 N:[0-9]
 
 SKIP:[ \t\r\n]

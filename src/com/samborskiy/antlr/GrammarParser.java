@@ -57,11 +57,13 @@ public class GrammarParser extends Parser {
 		
 		private Map<Nonterminal, List<List<String>>> rules = new HashMap<>();
 		private boolean hasEpsTerm = false;
+		private boolean hasEofTerm = false;
 		
 		private Terminal findTerm(String str) {
 			for (Terminal term : terminals) {
 				if (term.get().equals(str)) {
 					if (term.get().equals("EPS")) hasEpsTerm = true;
+					if (term.get().equals("EOF")) hasEofTerm = true;
 					return term;
 				}
 			}
@@ -144,11 +146,12 @@ public class GrammarParser extends Parser {
 			setState(31); match(EOF);
 
 					grammarName = ((GramContext)_localctx).name.val;
-					if (terminals.contains(Terminal.EPS) || terminals.contains(Terminal.END)) {
-						errorMessage = "EPS and END are reserved names.";
+					if (terminals.contains(Terminal.EPS) || terminals.contains(Terminal.EOF)) {
+						errorMessage = "EPS and EOF are reserved names.";
 						hasError = true;
 					}
 					terminals.add(Terminal.EPS);
+					terminals.add(Terminal.EOF);
 					for (Nonterminal nonterm : rules.keySet()) {
 						List<Rule> newRules = new ArrayList<>();
 						for (List<String> list : rules.get(nonterm)) {
@@ -166,6 +169,10 @@ public class GrammarParser extends Parser {
 						grammaRules.put(nonterm, newRules);
 					}
 					if (!hasEpsTerm) terminals.remove(Terminal.EPS);
+					if (!hasEofTerm) {
+						errorMessage = "EOF not found in grammar rules.";
+						hasError = true;
+					}
 					try {
 						PrintWriter pw = new PrintWriter(grammarName + ".tokens");
 						for (Terminal term : terminals) {
