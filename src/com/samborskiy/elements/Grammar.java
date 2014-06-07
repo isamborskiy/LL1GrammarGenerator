@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import com.samborskiy.antlr.GrammarLexer;
 import com.samborskiy.antlr.GrammarParser;
 import com.samborskiy.generate.LexerGenerator;
+import com.samborskiy.generate.ParserGenerator;
 
 public class Grammar {
 
@@ -45,6 +46,8 @@ public class Grammar {
 		}
 
 		LexerGenerator.generate(grammarName);
+		ParserGenerator.generate(grammarName, start.get(), rules, getFirst(),
+				getFollow());
 	}
 
 	private Map<Nonterminal, Set<Terminal>> first = null;
@@ -61,8 +64,8 @@ public class Grammar {
 				for (Nonterminal nonterm : rules.keySet()) {
 					int size = first.get(nonterm).size();
 					for (Rule rule : rules.get(nonterm)) {
-						if (rule.getTo(0).isTerm()) {
-							first.get(nonterm).add((Terminal) rule.getTo(0));
+						if (rule.get(0).isTerm()) {
+							first.get(nonterm).add((Terminal) rule.get(0));
 						} else {
 							first.get(nonterm).addAll(genFirst(rule, 0));
 						}
@@ -82,13 +85,13 @@ public class Grammar {
 			return res;
 		}
 
-		if (!rule.getTo(index).isTerm()) {
-			res.addAll(first.get(rule.getTo(index)));
+		if (!rule.get(index).isTerm()) {
+			res.addAll(first.get(rule.get(index)));
 			if (res.contains(Terminal.EPS)) {
 				res.addAll(genFirst(rule, index + 1));
 			}
 		} else {
-			res.add((Terminal) rule.getTo(index));
+			res.add((Terminal) rule.get(index));
 		}
 
 		return res;
@@ -109,8 +112,8 @@ public class Grammar {
 			for (Nonterminal nonterm : rules.keySet()) {
 				for (Rule rule : rules.get(nonterm)) {
 					for (int i = 0; i < rule.size(); i++) {
-						if (!rule.getTo(i).isTerm()) {
-							Nonterminal b = (Nonterminal) rule.getTo(i);
+						if (!rule.get(i).isTerm()) {
+							Nonterminal b = (Nonterminal) rule.get(i);
 							Set<Terminal> gammaFirst = genFirst(rule, i + 1);
 							boolean isContainsEps = gammaFirst
 									.remove(Terminal.EPS);

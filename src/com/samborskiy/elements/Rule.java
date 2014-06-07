@@ -9,7 +9,7 @@ public class Rule {
 		this.to = to;
 	}
 
-	public Element getTo(int index) {
+	public Element get(int index) {
 		return to[index];
 	}
 
