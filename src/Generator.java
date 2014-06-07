@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.samborskiy.elements.Grammar;
+import com.samborskiy.elements.Tree;
 
 public class Generator {
 
@@ -22,5 +23,8 @@ public class Generator {
 			System.out.println(le.curToken() + " --- " + le.curTerminal().get());
 			le.nextToken();
 		}
+		Parser pars = new Parser("input");
+		Tree tree = pars.getTree();
+		tree.show();
 	}
 }
