@@ -45,7 +45,7 @@ public class Grammar {
 					+ " does not exist");
 		}
 
-		LexerGenerator.generate(grammarName);
+		LexerGenerator.generate(grammarName, skipTerminal);
 		ParserGenerator.generate(grammarName, start.get(), rules, getFirst(),
 				getFollow());
 	}

@@ -300,7 +300,7 @@ public class GrammarParser extends Parser {
 			setState(42); match(3);
 
 					if (((TermContext)_localctx).name.val.equals(((TermContext)_localctx).name.val.toUpperCase()) && !((TermContext)_localctx).name.val.isEmpty() && findTerm(((TermContext)_localctx).name.val) == null) {
-						terminals.add(new Terminal(((TermContext)_localctx).name.val, ((TermContext)_localctx).termrightpart.val));
+						terminals.add(new Terminal(((TermContext)_localctx).name.val, ((TermContext)_localctx).termrightpart.val, false));
 					} else {
 						errorMessage = "Incorrect grammar file: terminal name \'" + ((TermContext)_localctx).name.val + "\'.";
 						hasError = true;
@@ -370,12 +370,12 @@ public class GrammarParser extends Parser {
 						int start = res.indexOf("(");
 						int end = res.lastIndexOf(")");
 						((TermrightpartContext)_localctx).val =  res.substring(start + 1, end);
+						if (_localctx.val.equals("[]") || _localctx.val.isEmpty()) {
+							errorMessage = "Incorrect grammar file: use EPS terminal";
+							hasError = true;
+						}
 					} else {
 						errorMessage = "Incorrect grammar file: terminal recording.";
-						hasError = true;
-					}
-					if (_localctx.val.equals("[]") || _localctx.val.isEmpty()) {
-						errorMessage = "Incorrect grammar file: use EPS terminal";
 						hasError = true;
 					}
 				
@@ -427,25 +427,22 @@ public class GrammarParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(53); ((NontermContext)_localctx).name = name();
-			setState(54); match(2);
-			setState(55); ((NontermContext)_localctx).nontermrightpart = nontermrightpart();
-			ruleList.add(((NontermContext)_localctx).nontermrightpart.val);
-			setState(63);
+			setState(58); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==5) {
+			do {
 				{
 				{
-				setState(57); match(5);
-				setState(58); ((NontermContext)_localctx).nontermrightpart = nontermrightpart();
+				setState(54); match(5);
+				setState(55); ((NontermContext)_localctx).nontermrightpart = nontermrightpart();
 				ruleList.add(((NontermContext)_localctx).nontermrightpart.val);
 				}
 				}
-				setState(65);
+				setState(60); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			}
-			setState(66); match(3);
+			} while ( _la==5 );
+			setState(62); match(3);
 
 					if (((NontermContext)_localctx).name.val.charAt(0) >= 'a' && ((NontermContext)_localctx).name.val.charAt(0) <= 'z') {
 						rules.put(new Nonterminal(((NontermContext)_localctx).name.val), ruleList);
@@ -496,17 +493,17 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(71); 
+			setState(67); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(69); ((NontermrightpartContext)_localctx).SYMBOL = match(SYMBOL);
+				setState(65); ((NontermrightpartContext)_localctx).SYMBOL = match(SYMBOL);
 				res += (((NontermrightpartContext)_localctx).SYMBOL!=null?((NontermrightpartContext)_localctx).SYMBOL.getText():null);
 				}
 				}
-				setState(73); 
+				setState(69); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==SYMBOL );
@@ -567,18 +564,18 @@ public class GrammarParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(77); ((SkipContext)_localctx).name = name();
-			setState(78); match(2);
-			setState(80);
+			setState(73); ((SkipContext)_localctx).name = name();
+			setState(74); match(2);
+			setState(76);
 			_la = _input.LA(1);
 			if (_la==SYMBOL) {
 				{
-				setState(79); ((SkipContext)_localctx).termrightpart = termrightpart();
+				setState(75); ((SkipContext)_localctx).termrightpart = termrightpart();
 				}
 			}
 
-			setState(82); match(1);
-			setState(84); 
+			setState(78); match(1);
+			setState(80); 
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			do {
@@ -586,35 +583,35 @@ public class GrammarParser extends Parser {
 				case 1+1:
 					{
 					{
-					setState(83); match(SYMBOL);
+					setState(79); match(SYMBOL);
 					}
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(86); 
+				setState(82); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			} while ( _alt!=1 && _alt!=-1 );
-			setState(88); match(4);
-			setState(92);
+			setState(84); match(4);
+			setState(88);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SYMBOL) {
 				{
 				{
-				setState(89); match(SYMBOL);
+				setState(85); match(SYMBOL);
 				}
 				}
-				setState(94);
+				setState(90);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(95); match(3);
+			setState(91); match(3);
 
 					if (((SkipContext)_localctx).termrightpart.val != null && ((SkipContext)_localctx).name.val.equals(((SkipContext)_localctx).name.val.toUpperCase()) && !((SkipContext)_localctx).name.val.isEmpty() && ((SkipContext)_localctx).termrightpart.val.contains("[") && ((SkipContext)_localctx).termrightpart.val.contains("]")) {
-						skipTerminal = new Terminal(((SkipContext)_localctx).name.val, ((SkipContext)_localctx).termrightpart.val);
+						skipTerminal = new Terminal(((SkipContext)_localctx).name.val, ((SkipContext)_localctx).termrightpart.val, false);
 					} else {
 						errorMessage = "Incorrect grammar file: skip rule.";
 						hasError = true;
@@ -662,17 +659,17 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(100); 
+			setState(96); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(98); ((NameContext)_localctx).SYMBOL = match(SYMBOL);
+				setState(94); ((NameContext)_localctx).SYMBOL = match(SYMBOL);
 				res += (((NameContext)_localctx).SYMBOL!=null?((NameContext)_localctx).SYMBOL.getText():null);
 				}
 				}
-				setState(102); 
+				setState(98); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==SYMBOL );
@@ -691,32 +688,32 @@ public class GrammarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\tm\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\ti\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\3\2\3\2\7\2"+
 		"\27\n\2\f\2\16\2\32\13\2\3\2\7\2\35\n\2\f\2\16\2 \13\2\3\2\3\2\3\2\3\3"+
 		"\3\3\3\3\5\3(\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\5\3\5\6\5\62\n\5\r\5\16\5"+
-		"\63\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\7\6@\n\6\f\6\16\6C\13\6\3"+
-		"\6\3\6\3\6\3\7\3\7\6\7J\n\7\r\7\16\7K\3\7\3\7\3\b\3\b\3\b\5\bS\n\b\3\b"+
-		"\3\b\6\bW\n\b\r\b\16\bX\3\b\3\b\7\b]\n\b\f\b\16\b`\13\b\3\b\3\b\3\b\3"+
-		"\t\3\t\6\tg\n\t\r\t\16\th\3\t\3\t\3\t\3X\2\n\2\4\6\b\n\f\16\20\2\2o\2"+
-		"\22\3\2\2\2\4\'\3\2\2\2\6)\3\2\2\2\b\61\3\2\2\2\n\67\3\2\2\2\fI\3\2\2"+
-		"\2\16O\3\2\2\2\20f\3\2\2\2\22\23\7\b\2\2\23\24\5\20\t\2\24\30\7\5\2\2"+
-		"\25\27\5\4\3\2\26\25\3\2\2\2\27\32\3\2\2\2\30\26\3\2\2\2\30\31\3\2\2\2"+
-		"\31\36\3\2\2\2\32\30\3\2\2\2\33\35\7\t\2\2\34\33\3\2\2\2\35 \3\2\2\2\36"+
-		"\34\3\2\2\2\36\37\3\2\2\2\37!\3\2\2\2 \36\3\2\2\2!\"\7\2\2\3\"#\b\2\1"+
-		"\2#\3\3\2\2\2$(\5\6\4\2%(\5\n\6\2&(\5\16\b\2\'$\3\2\2\2\'%\3\2\2\2\'&"+
-		"\3\2\2\2(\5\3\2\2\2)*\5\20\t\2*+\7\4\2\2+,\5\b\5\2,-\7\5\2\2-.\b\4\1\2"+
-		".\7\3\2\2\2/\60\7\t\2\2\60\62\b\5\1\2\61/\3\2\2\2\62\63\3\2\2\2\63\61"+
-		"\3\2\2\2\63\64\3\2\2\2\64\65\3\2\2\2\65\66\b\5\1\2\66\t\3\2\2\2\678\5"+
-		"\20\t\289\7\4\2\29:\5\f\7\2:A\b\6\1\2;<\7\7\2\2<=\5\f\7\2=>\b\6\1\2>@"+
-		"\3\2\2\2?;\3\2\2\2@C\3\2\2\2A?\3\2\2\2AB\3\2\2\2BD\3\2\2\2CA\3\2\2\2D"+
-		"E\7\5\2\2EF\b\6\1\2F\13\3\2\2\2GH\7\t\2\2HJ\b\7\1\2IG\3\2\2\2JK\3\2\2"+
-		"\2KI\3\2\2\2KL\3\2\2\2LM\3\2\2\2MN\b\7\1\2N\r\3\2\2\2OP\5\20\t\2PR\7\4"+
-		"\2\2QS\5\b\5\2RQ\3\2\2\2RS\3\2\2\2ST\3\2\2\2TV\7\3\2\2UW\7\t\2\2VU\3\2"+
-		"\2\2WX\3\2\2\2XY\3\2\2\2XV\3\2\2\2YZ\3\2\2\2Z^\7\6\2\2[]\7\t\2\2\\[\3"+
-		"\2\2\2]`\3\2\2\2^\\\3\2\2\2^_\3\2\2\2_a\3\2\2\2`^\3\2\2\2ab\7\5\2\2bc"+
-		"\b\b\1\2c\17\3\2\2\2de\7\t\2\2eg\b\t\1\2fd\3\2\2\2gh\3\2\2\2hf\3\2\2\2"+
-		"hi\3\2\2\2ij\3\2\2\2jk\b\t\1\2k\21\3\2\2\2\f\30\36\'\63AKRX^h";
+		"\63\3\5\3\5\3\6\3\6\3\6\3\6\3\6\6\6=\n\6\r\6\16\6>\3\6\3\6\3\6\3\7\3\7"+
+		"\6\7F\n\7\r\7\16\7G\3\7\3\7\3\b\3\b\3\b\5\bO\n\b\3\b\3\b\6\bS\n\b\r\b"+
+		"\16\bT\3\b\3\b\7\bY\n\b\f\b\16\b\\\13\b\3\b\3\b\3\b\3\t\3\t\6\tc\n\t\r"+
+		"\t\16\td\3\t\3\t\3\t\3T\2\n\2\4\6\b\n\f\16\20\2\2k\2\22\3\2\2\2\4\'\3"+
+		"\2\2\2\6)\3\2\2\2\b\61\3\2\2\2\n\67\3\2\2\2\fE\3\2\2\2\16K\3\2\2\2\20"+
+		"b\3\2\2\2\22\23\7\b\2\2\23\24\5\20\t\2\24\30\7\5\2\2\25\27\5\4\3\2\26"+
+		"\25\3\2\2\2\27\32\3\2\2\2\30\26\3\2\2\2\30\31\3\2\2\2\31\36\3\2\2\2\32"+
+		"\30\3\2\2\2\33\35\7\t\2\2\34\33\3\2\2\2\35 \3\2\2\2\36\34\3\2\2\2\36\37"+
+		"\3\2\2\2\37!\3\2\2\2 \36\3\2\2\2!\"\7\2\2\3\"#\b\2\1\2#\3\3\2\2\2$(\5"+
+		"\6\4\2%(\5\n\6\2&(\5\16\b\2\'$\3\2\2\2\'%\3\2\2\2\'&\3\2\2\2(\5\3\2\2"+
+		"\2)*\5\20\t\2*+\7\4\2\2+,\5\b\5\2,-\7\5\2\2-.\b\4\1\2.\7\3\2\2\2/\60\7"+
+		"\t\2\2\60\62\b\5\1\2\61/\3\2\2\2\62\63\3\2\2\2\63\61\3\2\2\2\63\64\3\2"+
+		"\2\2\64\65\3\2\2\2\65\66\b\5\1\2\66\t\3\2\2\2\67<\5\20\t\289\7\7\2\29"+
+		":\5\f\7\2:;\b\6\1\2;=\3\2\2\2<8\3\2\2\2=>\3\2\2\2><\3\2\2\2>?\3\2\2\2"+
+		"?@\3\2\2\2@A\7\5\2\2AB\b\6\1\2B\13\3\2\2\2CD\7\t\2\2DF\b\7\1\2EC\3\2\2"+
+		"\2FG\3\2\2\2GE\3\2\2\2GH\3\2\2\2HI\3\2\2\2IJ\b\7\1\2J\r\3\2\2\2KL\5\20"+
+		"\t\2LN\7\4\2\2MO\5\b\5\2NM\3\2\2\2NO\3\2\2\2OP\3\2\2\2PR\7\3\2\2QS\7\t"+
+		"\2\2RQ\3\2\2\2ST\3\2\2\2TU\3\2\2\2TR\3\2\2\2UV\3\2\2\2VZ\7\6\2\2WY\7\t"+
+		"\2\2XW\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2Z[\3\2\2\2[]\3\2\2\2\\Z\3\2\2\2]^\7"+
+		"\5\2\2^_\b\b\1\2_\17\3\2\2\2`a\7\t\2\2ac\b\t\1\2b`\3\2\2\2cd\3\2\2\2d"+
+		"b\3\2\2\2de\3\2\2\2ef\3\2\2\2fg\b\t\1\2g\21\3\2\2\2\f\30\36\'\63>GNTZ"+
+		"d";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

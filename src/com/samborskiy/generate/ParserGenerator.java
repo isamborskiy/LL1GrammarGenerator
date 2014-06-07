@@ -71,37 +71,21 @@ public class ParserGenerator {
 			}
 			function.append(TAP2 + "switch(lex.curTerminal().get()) {\n");
 
-			List<Terminal> cases = new ArrayList<>();
-			List<Rule> caseRules = new ArrayList<>();
-			Rule epsRule = null;
-			for (Terminal term : first.get(nonterm)) {
-				cases.add(term);
-				if (!term.equals(Terminal.EPS)) {
-					for (Rule rule : rules.get(nonterm)) {
-						if (rule.get(0).equals(term)) {
-							caseRules.add(rule);
-							break;
-						}
-					}
+			for (Rule rule : rules.get(nonterm)) {
+				Element elem = rule.get(0);
+				List<Terminal> list = new ArrayList<>();
+				if (elem.isTerm()) {
+					list.add((Terminal) elem);
 				} else {
-					for (Rule rule : rules.get(nonterm)) {
-						if (rule.get(0).equals(term)) {
-							epsRule = rule;
-							break;
-						}
-					}
+					list.addAll(first.get((Nonterminal) elem));
 				}
-			}
-			if (cases.remove(Terminal.EPS)) {
-				for (Terminal term : follow.get(nonterm)) {
-					cases.add(term);
-					caseRules.add(epsRule);
+				if (list.remove(Terminal.EPS)) {
+					list.addAll(follow.get(nonterm));
 				}
-			}
 
-			for (int i = 0; i < cases.size(); i++) {
-				function.append(generateCase(nonterm, cases.get(i),
-						caseRules.get(i)));
+				for (Terminal term : list) {
+					function.append(generateCase(nonterm, term, rule));
+				}
 			}
 
 			function.append(TAP2 + "default:\n" + TAP3

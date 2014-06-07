@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 import com.samborskiy.elements.Terminal;
 
-public class Lexer {
+public class PostfixLexer {
 	private static final String TOKENS_FILE = "Postfix.tokens";
 	
 	private StringBuilder input = new StringBuilder();
@@ -18,7 +18,7 @@ public class Lexer {
 	private List<Terminal> terminals = new ArrayList<>();
 	private Terminal skipTerminal;
 
-	public Lexer(String fileName) throws IOException, ParseException {
+	public PostfixLexer(String fileName) throws IOException, ParseException {
 		BufferedReader bf = new BufferedReader(new FileReader(fileName));
 		String line = "";
 		while ((line = bf.readLine()) != null) {
@@ -33,16 +33,16 @@ public class Lexer {
 			} else {
 				int tmp = line.indexOf(":");
 				if (!isSkip) {
-					terminals.add(new Terminal(line.substring(0, tmp), line.substring(tmp + 1)));
+					terminals.add(new Terminal(line.substring(0, tmp), line.substring(tmp + 1), line.substring(tmp + 1).charAt(0) != '['));
 				} else {
-					skipTerminal = new Terminal(line.substring(0, tmp), line.substring(tmp + 1));
+					skipTerminal = new Terminal(line.substring(0, tmp), line.substring(tmp + 1), false);
 				}
 			}
 		}
 		bf.close();
 		
 		if (skipTerminal != null) {
-			StringTokenizer st = new StringTokenizer(input.toString(), skipTerminal.match());
+			StringTokenizer st = new StringTokenizer(input.toString(), "[ \t\r\n]");
 			while (st.hasMoreTokens()) {
 				parse(st.nextToken());
 			}
@@ -58,6 +58,23 @@ public class Lexer {
 		Terminal curTerm = null;
 		String cur = "";
 		for (int i = 0; i < str.length(); i++) {
+			if (cur.isEmpty()) {
+				boolean find = false;
+				for (Terminal term : terminals) {
+					if (term.isConst()) {
+						if (str.substring(i).startsWith(term.match())) {
+							find = true;
+							i += term.match().length() - 1;
+							tokens.add(term.match());
+							tokenToTerm.add(term);
+							break;
+						}
+					}
+				}
+				if (find) {
+					continue;
+				}
+			}
 			cur += str.charAt(i);
 			if (curTerm != null) {
 				if (!cur.matches(curTerm.match())) {
@@ -75,6 +92,9 @@ public class Lexer {
 					}
 				}
 			}
+		}
+		if (cur.isEmpty()) {
+			return;
 		}
 		if (curTerm != null) {
 			tokens.add(cur);

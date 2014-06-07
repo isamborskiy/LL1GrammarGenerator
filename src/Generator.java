@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.IOException;
 
 import com.samborskiy.elements.Grammar;
-import com.samborskiy.elements.Tree;
 
 public class Generator {
 
@@ -14,18 +13,6 @@ public class Generator {
 		if (!new File(args[0]).exists()) {
 			throw new IOException("File " + args[0] + " does not exist");
 		}
-		Grammar grammar = new Grammar(args);
-		System.out.println(grammar.toString());
-		System.out.println(grammar.getFirst());
-		System.out.println(grammar.getFollow());
-		Lexer le = new Lexer("input");
-		while (le.hasNextToken()) {
-			System.out
-					.println(le.curToken() + " --- " + le.curTerminal().get());
-			le.nextToken();
-		}
-		Parser pars = new Parser("input");
-//		Tree tree = pars.getTree();
-//		tree.show();
+		new Grammar(args);
 	}
 }

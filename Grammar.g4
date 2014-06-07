@@ -90,7 +90,7 @@ term
 	: name ':' termrightpart ';'
 	{
 		if ($name.val.equals($name.val.toUpperCase()) && !$name.val.isEmpty() && findTerm($name.val) == null) {
-			terminals.add(new Terminal($name.val, $termrightpart.val));
+			terminals.add(new Terminal($name.val, $termrightpart.val, false));
 		} else {
 			errorMessage = "Incorrect grammar file: terminal name \'" + $name.val + "\'.";
 			hasError = true;
@@ -109,12 +109,12 @@ termrightpart returns [String val]
 			int start = res.indexOf("(");
 			int end = res.lastIndexOf(")");
 			$val = res.substring(start + 1, end);
+			if ($val.equals("[]") || $val.isEmpty()) {
+				errorMessage = "Incorrect grammar file: use EPS terminal";
+				hasError = true;
+			}
 		} else {
 			errorMessage = "Incorrect grammar file: terminal recording.";
-			hasError = true;
-		}
-		if ($val.equals("[]") || $val.isEmpty()) {
-			errorMessage = "Incorrect grammar file: use EPS terminal";
 			hasError = true;
 		}
 	}
@@ -122,7 +122,7 @@ termrightpart returns [String val]
 
 nonterm
 	@init {List<List<String>> ruleList = new ArrayList<>();}
-	: name ':' nontermrightpart{ruleList.add($nontermrightpart.val);} ('|' nontermrightpart{ruleList.add($nontermrightpart.val);})* ';'
+	: name ('|' nontermrightpart{ruleList.add($nontermrightpart.val);})+ ';'
 	{
 		if ($name.val.charAt(0) >= 'a' && $name.val.charAt(0) <= 'z') {
 			rules.put(new Nonterminal($name.val), ruleList);
@@ -151,7 +151,7 @@ skip
 	: name ':' termrightpart? '->' SYMBOL+? 'skip' SYMBOL* ';'
 	{
 		if ($termrightpart.val != null && $name.val.equals($name.val.toUpperCase()) && !$name.val.isEmpty() && $termrightpart.val.contains("[") && $termrightpart.val.contains("]")) {
-			skipTerminal = new Terminal($name.val, $termrightpart.val);
+			skipTerminal = new Terminal($name.val, $termrightpart.val, false);
 		} else {
 			errorMessage = "Incorrect grammar file: skip rule.";
 			hasError = true;

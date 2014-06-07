@@ -2,15 +2,17 @@ package com.samborskiy.elements;
 
 public class Terminal implements Element {
 
-	public static final Terminal EPS = new Terminal("EPS", "");
-	public static final Terminal EOF = new Terminal("EOF", "$");
+	public static final Terminal EPS = new Terminal("EPS", "", false);
+	public static final Terminal EOF = new Terminal("EOF", "$", false);
 
 	private String name;
 	private String matchValue;
+	private boolean isConst;
 
-	public Terminal(String name, String matchValue) {
+	public Terminal(String name, String matchValue, boolean isConst) {
 		this.name = name;
 		this.matchValue = matchValue;
+		this.isConst = isConst;
 	}
 
 	@Override
@@ -20,6 +22,10 @@ public class Terminal implements Element {
 
 	public String match() {
 		return matchValue;
+	}
+
+	public boolean isConst() {
+		return isConst;
 	}
 
 	@Override
