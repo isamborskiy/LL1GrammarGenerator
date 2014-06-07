@@ -43,10 +43,17 @@ public class Grammar {
 		if (!rules.keySet().contains(start)) {
 			throw new IllegalArgumentException("Nonterminal " + args[1]
 					+ " does not exist");
+		} else {
+			for (Nonterminal nonterm : rules.keySet()) {
+				if (start.equals(nonterm)) {
+					start = nonterm;
+					break;
+				}
+			}
 		}
 
 		LexerGenerator.generate(grammarName, skipTerminal);
-		ParserGenerator.generate(grammarName, start.get(), rules, getFirst(),
+		ParserGenerator.generate(grammarName, start, rules, getFirst(),
 				getFollow());
 	}
 

@@ -3,6 +3,8 @@ package com.samborskiy.elements;
 public class Nonterminal implements Element {
 
 	private String value;
+	private String inherAtt = "";
+	private String synthAtt = "";
 
 	public Nonterminal(String value) {
 		this.value = value;
@@ -16,6 +18,22 @@ public class Nonterminal implements Element {
 	@Override
 	public String toString() {
 		return value;
+	}
+
+	public void setInher(String att) {
+		inherAtt = att;
+	}
+
+	public String getInher() {
+		return inherAtt;
+	}
+
+	public void setSynth(String att) {
+		synthAtt = att;
+	}
+
+	public String getSynth() {
+		return synthAtt;
 	}
 
 	@Override

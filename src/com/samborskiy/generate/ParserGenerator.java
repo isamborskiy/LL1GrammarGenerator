@@ -28,16 +28,14 @@ public class ParserGenerator {
 	private static final String EPS_TERMINAL = TAP3
 			+ "_%s = new Tree(\"(EPS)\");\n";
 
-	public static void generate(String grammarName, String start,
+	public static void generate(String grammarName, Nonterminal start,
 			Map<Nonterminal, List<Rule>> rules,
 			Map<Nonterminal, Set<Terminal>> first,
 			Map<Nonterminal, Set<Terminal>> follow) throws IOException {
 		StringBuilder out = new StringBuilder();
 		out.append("import java.io.IOException;\n"
-				+ "import java.text.ParseException;\n"
-				+ "\n"
-				+ "import com.samborskiy.elements.Tree;\n"
-				+ "\n"
+				+ "import java.text.ParseException;\n" + "\n"
+				+ "import com.samborskiy.elements.Tree;\n" + "\n"
 				+ "public class "
 				+ grammarName
 				+ "Parser {\n"
@@ -48,15 +46,26 @@ public class ParserGenerator {
 				+ "\t\n"
 				+ "\tpublic "
 				+ grammarName
-				+ "Parser(String inputFile) throws IOException, ParseException {\n"
-				+ "\t\tlex = new " + grammarName + "Lexer(inputFile);\n"
-				+ "\t\troot = " + start + "();\n" + "\t}\n" + "\t\n"
-				+ "\tpublic Tree getTree() {\n" + "\t\treturn root;\n"
-				+ "\t}\n\n");
+				+ "Parser(String inputFile"
+				+ (start.getInher().isEmpty() ? "" : ", " + start.getInher())
+				+ ") throws IOException, ParseException {\n"
+				+ "\t\tlex = new "
+				+ grammarName
+				+ "Lexer(inputFile);\n"
+				+ "\t\troot = "
+				+ start.get()
+				+ "("
+				+ (start.getInher().isEmpty() ? "" : start.getInher()
+						.substring(start.getInher().indexOf(" ") + 1))
+				+ ");\n"
+				+ "\t}\n"
+				+ "\t\n"
+				+ "\tpublic Tree getTree() {\n"
+				+ "\t\treturn root;\n" + "\t}\n\n");
 
 		for (Nonterminal nonterm : rules.keySet()) {
 			StringBuilder function = new StringBuilder("\tprivate Tree "
-					+ nonterm.get() + "() {\n");
+					+ nonterm.get() + "(" + nonterm.getInher() + ") {\n");
 			function.append(TAP2 + "Tree res = null;\n");
 			int max = -1;
 			for (Rule rule : rules.get(nonterm)) {

@@ -7,16 +7,16 @@ public class PostfixParser {
 	private PostfixLexer lex;
 	private Tree root;
 	
-	public PostfixParser(String inputFile) throws IOException, ParseException {
+	public PostfixParser(String inputFile, int i) throws IOException, ParseException {
 		lex = new PostfixLexer(inputFile);
-		root = s();
+		root = s(i);
 	}
 	
 	public Tree getTree() {
 		return root;
 	}
 
-	private Tree s() {
+	private Tree s(int i) {
 		Tree res = null;
 		Tree _0 = null, _1 = null;
 		switch(lex.curTerminal().get()) {

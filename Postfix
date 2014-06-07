@@ -1,6 +1,6 @@
 grammar Postfix;
 
-s	
+s[int i] returns [String val]	
 	| e EOF
 	| EPS EOF
 	;

@@ -124,8 +124,28 @@ nonterm
 	@init {List<List<String>> ruleList = new ArrayList<>();}
 	: name ('|' nontermrightpart{ruleList.add($nontermrightpart.val);})+ ';'
 	{
-		if ($name.val.charAt(0) >= 'a' && $name.val.charAt(0) <= 'z') {
-			rules.put(new Nonterminal($name.val), ruleList);
+		String inher = "";
+		String synth = "";
+		String nameStr = $name.val;
+		if (nameStr.contains("[")) {
+			String[] arr = nameStr.split("returns");
+			if (arr[0].contains("[")) {
+				inher = nameStr.substring(nameStr.indexOf("[") + 1, nameStr.indexOf("]"));
+			}
+			if (arr.length > 1) {
+				synth = arr[1].substring(arr[1].indexOf("[") + 1, arr[1].indexOf("]"));
+			}
+			nameStr = $name.val.substring(0, $name.val.indexOf("[")).replaceAll("\\s+", "");
+		}
+		if (nameStr.charAt(0) >= 'a' && nameStr.charAt(0) <= 'z') {
+			Nonterminal nonterm = new Nonterminal(nameStr);
+			if (!inher.isEmpty()) {
+				nonterm.setInher(inher);
+			}
+			if (!synth.isEmpty()) {
+				nonterm.setSynth(synth);
+			}
+			rules.put(nonterm, ruleList);
 		} else {
 			errorMessage = "Incorrect grammar file: nonterminal name \'" + $name.val + "\'." ;
 			hasError = true;
@@ -162,7 +182,22 @@ skip
 name returns [String val]
 	@init{String res = "";}
 	: (SYMBOL{res += $SYMBOL.text;})+
-	{$val = res.replaceAll("\\s+", "");}
+	{
+		if (!res.contains("[")) {
+			$val = res.replaceAll("\\s+", "");
+		} else {
+			int k = 0;
+			while(new String("" + res.charAt(k)).matches("\\s")) {
+				k++;
+			}
+			res = res.substring(k);
+			k = res.length() - 1;
+			while(new String("" + res.charAt(k)).matches("\\s")) {
+				k--;
+			}
+			$val = res.substring(0, k + 1);
+		}
+	}
 	;
 	
 SYMBOL	: ~[|:;];

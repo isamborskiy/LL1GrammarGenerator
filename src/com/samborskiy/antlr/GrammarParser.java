@@ -444,8 +444,28 @@ public class GrammarParser extends Parser {
 			} while ( _la==5 );
 			setState(62); match(3);
 
-					if (((NontermContext)_localctx).name.val.charAt(0) >= 'a' && ((NontermContext)_localctx).name.val.charAt(0) <= 'z') {
-						rules.put(new Nonterminal(((NontermContext)_localctx).name.val), ruleList);
+					String inher = "";
+					String synth = "";
+					String nameStr = ((NontermContext)_localctx).name.val;
+					if (nameStr.contains("[")) {
+						String[] arr = nameStr.split("returns");
+						if (arr[0].contains("[")) {
+							inher = nameStr.substring(nameStr.indexOf("[") + 1, nameStr.indexOf("]"));
+						}
+						if (arr.length > 1) {
+							synth = arr[1].substring(arr[1].indexOf("[") + 1, arr[1].indexOf("]"));
+						}
+						nameStr = ((NontermContext)_localctx).name.val.substring(0, ((NontermContext)_localctx).name.val.indexOf("[")).replaceAll("\\s+", "");
+					}
+					if (nameStr.charAt(0) >= 'a' && nameStr.charAt(0) <= 'z') {
+						Nonterminal nonterm = new Nonterminal(nameStr);
+						if (!inher.isEmpty()) {
+							nonterm.setInher(inher);
+						}
+						if (!synth.isEmpty()) {
+							nonterm.setSynth(synth);
+						}
+						rules.put(nonterm, ruleList);
 					} else {
 						errorMessage = "Incorrect grammar file: nonterminal name \'" + ((NontermContext)_localctx).name.val + "\'." ;
 						hasError = true;
@@ -673,7 +693,22 @@ public class GrammarParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==SYMBOL );
-			((NameContext)_localctx).val =  res.replaceAll("\\s+", "");
+
+					if (!res.contains("[")) {
+						((NameContext)_localctx).val =  res.replaceAll("\\s+", "");
+					} else {
+						int k = 0;
+						while(new String("" + res.charAt(k)).matches("\\s")) {
+							k++;
+						}
+						res = res.substring(k);
+						k = res.length() - 1;
+						while(new String("" + res.charAt(k)).matches("\\s")) {
+							k--;
+						}
+						((NameContext)_localctx).val =  res.substring(0, k + 1);
+					}
+				
 			}
 		}
 		catch (RecognitionException re) {
