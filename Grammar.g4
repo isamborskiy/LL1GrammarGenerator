@@ -65,7 +65,9 @@ gram
 		try {
 			PrintWriter pw = new PrintWriter(grammarName + ".tokens");
 			for (Terminal term : terminals) {
-				pw.println(term.get() + ":" + term.match());
+				if (!term.equals(Terminal.EPS) && !term.equals(Terminal.EOF)) {
+					pw.println(term.get() + ":" + term.match());
+				}
 			}
 			if (skipTerminal != null) {
 				pw.println();
@@ -103,13 +105,9 @@ termrightpart returns [String val]
 	@init{String res = "";}
 	: (SYMBOL{res += $SYMBOL.text;})+
 	{
-		if (res.contains("[") && res.contains("]")) {
-			int start = res.indexOf("[");
-			int end = res.lastIndexOf("]");
-			$val = res.substring(start, end + 1);
-		} else if (res.contains("'")) {
-			int start = res.indexOf("'");
-			int end = res.lastIndexOf("'");
+		if (res.contains("(") && res.contains(")")) {
+			int start = res.indexOf("(");
+			int end = res.lastIndexOf(")");
 			$val = res.substring(start + 1, end);
 		} else {
 			errorMessage = "Incorrect grammar file: terminal recording.";

@@ -1,20 +1,15 @@
 grammar Postfix;
 
 s	
-	: n a EOF
+	: N a EOF
 	| EPS EOF
 	;
 
 a
-	: n a SIGN a
+	: N a SIGN a
 	| EPS
 	;
-	
-n
-	: n N
-	| N
-	;
 
-SIGN: [+\-*];
-N	: [0-9];
-SKIP: [ \t\r\n] -> skip;
+SIGN: ([+\-*]);
+N	: ([0-9]+);
+SKIP: ([ \t\r\n]) -> skip;

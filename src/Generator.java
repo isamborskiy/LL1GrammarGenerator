@@ -17,5 +17,10 @@ public class Generator {
 		System.out.println(grammar.toString());
 		System.out.println(grammar.getFirst());
 		System.out.println(grammar.getFollow());
+		Lexer le = new Lexer("input");
+		while(le.hasNextToken()) {
+			System.out.println(le.curToken() + " --- " + le.curTerminal().get());
+			le.nextToken();
+		}
 	}
 }

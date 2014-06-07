@@ -176,7 +176,9 @@ public class GrammarParser extends Parser {
 					try {
 						PrintWriter pw = new PrintWriter(grammarName + ".tokens");
 						for (Terminal term : terminals) {
-							pw.println(term.get() + ":" + term.match());
+							if (!term.equals(Terminal.EPS) && !term.equals(Terminal.EOF)) {
+								pw.println(term.get() + ":" + term.match());
+							}
 						}
 						if (skipTerminal != null) {
 							pw.println();
@@ -364,13 +366,9 @@ public class GrammarParser extends Parser {
 				_la = _input.LA(1);
 			} while ( _la==SYMBOL );
 
-					if (res.contains("[") && res.contains("]")) {
-						int start = res.indexOf("[");
-						int end = res.lastIndexOf("]");
-						((TermrightpartContext)_localctx).val =  res.substring(start, end + 1);
-					} else if (res.contains("'")) {
-						int start = res.indexOf("'");
-						int end = res.lastIndexOf("'");
+					if (res.contains("(") && res.contains(")")) {
+						int start = res.indexOf("(");
+						int end = res.lastIndexOf(")");
 						((TermrightpartContext)_localctx).val =  res.substring(start + 1, end);
 					} else {
 						errorMessage = "Incorrect grammar file: terminal recording.";
