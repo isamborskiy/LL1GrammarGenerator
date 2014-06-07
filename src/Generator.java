@@ -14,6 +14,5 @@ public class Generator {
 			throw new IOException("File " + args[0] + " does not exist");
 		}
 		Grammar grammar = new Grammar(args);
-		Lexer le = new  Lexer("input");
 	}
 }

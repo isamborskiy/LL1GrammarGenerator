@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import com.samborskiy.antlr.GrammarLexer;
 import com.samborskiy.antlr.GrammarParser;
+import com.samborskiy.generate.LexerGenerator;
 
 public class Grammar {
 
@@ -26,8 +27,8 @@ public class Grammar {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokens);
 		parser.gram();
-//		RuleContext tree = parser.gram();
-//		tree.inspect(parser);
+		// RuleContext tree = parser.gram();
+		// tree.inspect(parser);
 
 		if (parser.hasError) {
 			throw new Exception(parser.errorMessage);
@@ -43,6 +44,7 @@ public class Grammar {
 					+ " does not exist");
 		}
 
+		LexerGenerator.generate(grammarName);
 	}
 
 	private Map<Nonterminal, Set<Terminal>> first = null;
@@ -140,7 +142,8 @@ public class Grammar {
 		for (Terminal term : terminals) {
 			sb.append(" " + term.get());
 		}
-		sb.append("\nSkip: " + (skipTerminal == null ? "" : skipTerminal.match()));
+		sb.append("\nSkip: "
+				+ (skipTerminal == null ? "" : skipTerminal.match()));
 		sb.append("\nStart: " + start.toString() + "\n");
 		for (Nonterminal nonterm : rules.keySet()) {
 			for (Rule rule : rules.get(nonterm)) {
