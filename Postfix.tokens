@@ -1,9 +1,4 @@
-OR:or
-NOT:not
-LEFT:[\(]
-V:[a-z]+
-AND:and
-XOR:xor
-RIGHT:[\)]
+SIGN:[+\-*]
+N:[0-9]+
 
 SKIP:[ \t\r\n]

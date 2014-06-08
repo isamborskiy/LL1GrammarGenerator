@@ -1,41 +1,23 @@
-grammar Postfix;
+grammar Postfix $
 
-s[int i] returns [String val]	
-	| e[i] EOF
+s[int i]
+	| N a[i+1] EOF
+	{
+		i++;
+		System.out.print(i);
+	}
 	| EPS EOF
-	;
-
-e[int i]
-	| t[i] es[i]
-	;
+	$
 	
-es[int i]
-	| OR t[i] es[i]
-	| XOR t[i] es[i]
+a[int i]
+	| N a[i] SIGN a[i]
+	{
+		i++;
+		System.out.print(i);
+	}
 	| EPS
-	;
+	$
 	
-t[int i]
-	| f[i] ts[i]
-	;
-	
-ts[int i]
-	| AND f[i] ts[i]
-	| EPS
-	;
-	
-f[int i]
-	| NOT f[i]
-	| V
-	| LEFT e[i] RIGHT
-	;
-	
-	
-OR		: (or);
-XOR		: (xor);
-AND		: (and);
-NOT		: (not);
-LEFT	: ([\(]);
-RIGHT	: ([\)]);
-V		: ([a-z]+);
-SKIP	: ([ \t\r\n]) -> skip;
+SIGN: ([+\-*]) $
+N	: ([0-9]+) $
+SKIP: ([ \t\r\n]) -> skip $

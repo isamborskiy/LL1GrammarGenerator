@@ -3,6 +3,7 @@ package com.samborskiy.elements;
 public class Rule {
 
 	private Element[] to;
+	private String transSym = "";
 
 	public Rule(Element... to) {
 		assert (to.length > 0);
@@ -15,6 +16,14 @@ public class Rule {
 
 	public int size() {
 		return to.length;
+	}
+	
+	public void setTrans(String sym) {
+		transSym = sym;
+	}
+
+	public String getTrans() {
+		return transSym;
 	}
 
 	@Override

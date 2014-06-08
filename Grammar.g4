@@ -26,7 +26,7 @@ grammar Grammar;
 }
 
 gram
-	: 'grammar' name ';' (rules)* SYMBOL* EOF
+	: 'grammar' name '$' (rules)* SYMBOL* EOF
 	{
 		grammarName = $name.val;
 		if (terminals.contains(Terminal.EPS) || terminals.contains(Terminal.EOF)) {
@@ -59,7 +59,7 @@ rules
 	;
 	
 term
-	: name ':' termrightpart ';'
+	: name ':' termrightpart '$'
 	{
 		if ($name.val.equals($name.val.toUpperCase()) && !$name.val.isEmpty() && findTerm($name.val) == null) {
 			terminals.add(new Terminal($name.val, $termrightpart.val, false));
@@ -94,7 +94,7 @@ termrightpart returns [String val]
 
 nonterm
 	@init {List<Rule> ruleList = new ArrayList<>();}
-	: name ('|' nontermrightpart{ruleList.add($nontermrightpart.val);})+ ';'
+	: name ('|' nontermrightpart{ruleList.add($nontermrightpart.val);})+ '$'
 	{
 		String inher = "";
 		String synth = "";
@@ -130,6 +130,11 @@ nontermrightpart returns [Rule val]
 	: (SYMBOL{res += $SYMBOL.text;})+
 	{
 		List<Element> list = new ArrayList<>();
+		String trans = "";
+		if (res.contains("{") && res.contains("}")) {
+			trans = res.substring(res.indexOf("{"), res.lastIndexOf("}") + 1);
+			res = res.substring(0, res.indexOf("{"));
+		}
 		String[] arr = res.split("\\s+");
 		for (int i = 0; i < arr.length; i++) {
 			String str = arr[i];
@@ -150,11 +155,12 @@ nontermrightpart returns [Rule val]
 			}
 		}
 		$val = new Rule(list.toArray(new Element[list.size()]));
+		$val.setTrans(trans);
 	}
 	;
 	
 skip
-	: name ':' termrightpart? '->' SYMBOL+? 'skip' SYMBOL* ';'
+	: name ':' termrightpart? '->' SYMBOL+? 'skip' SYMBOL* '$'
 	{
 		if ($termrightpart.val != null && $name.val.equals($name.val.toUpperCase()) && !$name.val.isEmpty() && $termrightpart.val.contains("[") && $termrightpart.val.contains("]")) {
 			skipTerminal = new Terminal($name.val, $termrightpart.val, false);
@@ -186,4 +192,4 @@ name returns [String val]
 	}
 	;
 	
-SYMBOL	: ~[|:;];
+SYMBOL	: ~[|:$];

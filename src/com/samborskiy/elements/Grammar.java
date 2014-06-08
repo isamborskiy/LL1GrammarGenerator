@@ -28,8 +28,8 @@ public class Grammar {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokens);
 		parser.gram();
-		// RuleContext tree = parser.gram();
-		// tree.inspect(parser);
+//		 RuleContext tree = parser.gram();
+//		 tree.inspect(parser);
 
 		if (parser.hasError) {
 			throw new Exception(parser.errorMessage);
