@@ -23,7 +23,7 @@ public class Tree implements DSTreeNode {
 	}
 	
 	public void show() {
-		DSutils.show(this, 50, 30);
+		DSutils.show(this, 60, 30);
 	}
 
 	@Override

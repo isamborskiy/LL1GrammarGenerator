@@ -94,7 +94,7 @@ termrightpart returns [String val]
 
 nonterm
 	@init {List<Rule> ruleList = new ArrayList<>();}
-	: name ('|' nontermrightpart{ruleList.add($nontermrightpart.val);})+ '$'
+	: name ('#' nontermrightpart{ruleList.add($nontermrightpart.val);})+ '$'
 	{
 		String inher = "";
 		String synth = "";
@@ -192,4 +192,4 @@ name returns [String val]
 	}
 	;
 	
-SYMBOL	: ~[|:$];
+SYMBOL	: ~[#:$];

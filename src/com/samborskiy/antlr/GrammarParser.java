@@ -22,7 +22,7 @@ public class GrammarParser extends Parser {
 	public static final int
 		T__5=1, T__4=2, T__3=3, T__2=4, T__1=5, T__0=6, SYMBOL=7;
 	public static final String[] tokenNames = {
-		"<INVALID>", "'->'", "'$'", "':'", "'skip'", "'|'", "'grammar'", "SYMBOL"
+		"<INVALID>", "'->'", "'#'", "'$'", "':'", "'skip'", "'grammar'", "SYMBOL"
 	};
 	public static final int
 		RULE_gram = 0, RULE_rules = 1, RULE_term = 2, RULE_termrightpart = 3, 
@@ -108,7 +108,7 @@ public class GrammarParser extends Parser {
 			{
 			setState(16); match(6);
 			setState(17); ((GramContext)_localctx).name = name();
-			setState(18); match(2);
+			setState(18); match(3);
 			setState(22);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
@@ -267,9 +267,9 @@ public class GrammarParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(39); ((TermContext)_localctx).name = name();
-			setState(40); match(3);
+			setState(40); match(4);
 			setState(41); ((TermContext)_localctx).termrightpart = termrightpart();
-			setState(42); match(2);
+			setState(42); match(3);
 
 					if (((TermContext)_localctx).name.val.equals(((TermContext)_localctx).name.val.toUpperCase()) && !((TermContext)_localctx).name.val.isEmpty() && findTerm(((TermContext)_localctx).name.val) == null) {
 						terminals.add(new Terminal(((TermContext)_localctx).name.val, ((TermContext)_localctx).termrightpart.val, false));
@@ -405,7 +405,7 @@ public class GrammarParser extends Parser {
 			do {
 				{
 				{
-				setState(54); match(5);
+				setState(54); match(2);
 				setState(55); ((NontermContext)_localctx).nontermrightpart = nontermrightpart();
 				ruleList.add(((NontermContext)_localctx).nontermrightpart.val);
 				}
@@ -413,8 +413,8 @@ public class GrammarParser extends Parser {
 				setState(60); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==5 );
-			setState(62); match(2);
+			} while ( _la==2 );
+			setState(62); match(3);
 
 					String inher = "";
 					String synth = "";
@@ -577,7 +577,7 @@ public class GrammarParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(73); ((SkipContext)_localctx).name = name();
-			setState(74); match(3);
+			setState(74); match(4);
 			setState(76);
 			_la = _input.LA(1);
 			if (_la==SYMBOL) {
@@ -606,7 +606,7 @@ public class GrammarParser extends Parser {
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			} while ( _alt!=1 && _alt!=-1 );
-			setState(84); match(4);
+			setState(84); match(5);
 			setState(88);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -620,7 +620,7 @@ public class GrammarParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(91); match(2);
+			setState(91); match(3);
 
 					if (((SkipContext)_localctx).termrightpart.val != null && ((SkipContext)_localctx).name.val.equals(((SkipContext)_localctx).name.val.toUpperCase()) && !((SkipContext)_localctx).name.val.isEmpty() && ((SkipContext)_localctx).termrightpart.val.contains("[") && ((SkipContext)_localctx).termrightpart.val.contains("]")) {
 						skipTerminal = new Terminal(((SkipContext)_localctx).name.val, ((SkipContext)_localctx).termrightpart.val, false);
@@ -724,21 +724,21 @@ public class GrammarParser extends Parser {
 		"\16\bT\3\b\3\b\7\bY\n\b\f\b\16\b\\\13\b\3\b\3\b\3\b\3\t\3\t\6\tc\n\t\r"+
 		"\t\16\td\3\t\3\t\3\t\3T\2\n\2\4\6\b\n\f\16\20\2\2k\2\22\3\2\2\2\4\'\3"+
 		"\2\2\2\6)\3\2\2\2\b\61\3\2\2\2\n\67\3\2\2\2\fE\3\2\2\2\16K\3\2\2\2\20"+
-		"b\3\2\2\2\22\23\7\b\2\2\23\24\5\20\t\2\24\30\7\4\2\2\25\27\5\4\3\2\26"+
+		"b\3\2\2\2\22\23\7\b\2\2\23\24\5\20\t\2\24\30\7\5\2\2\25\27\5\4\3\2\26"+
 		"\25\3\2\2\2\27\32\3\2\2\2\30\26\3\2\2\2\30\31\3\2\2\2\31\36\3\2\2\2\32"+
 		"\30\3\2\2\2\33\35\7\t\2\2\34\33\3\2\2\2\35 \3\2\2\2\36\34\3\2\2\2\36\37"+
 		"\3\2\2\2\37!\3\2\2\2 \36\3\2\2\2!\"\7\2\2\3\"#\b\2\1\2#\3\3\2\2\2$(\5"+
 		"\6\4\2%(\5\n\6\2&(\5\16\b\2\'$\3\2\2\2\'%\3\2\2\2\'&\3\2\2\2(\5\3\2\2"+
-		"\2)*\5\20\t\2*+\7\5\2\2+,\5\b\5\2,-\7\4\2\2-.\b\4\1\2.\7\3\2\2\2/\60\7"+
+		"\2)*\5\20\t\2*+\7\6\2\2+,\5\b\5\2,-\7\5\2\2-.\b\4\1\2.\7\3\2\2\2/\60\7"+
 		"\t\2\2\60\62\b\5\1\2\61/\3\2\2\2\62\63\3\2\2\2\63\61\3\2\2\2\63\64\3\2"+
-		"\2\2\64\65\3\2\2\2\65\66\b\5\1\2\66\t\3\2\2\2\67<\5\20\t\289\7\7\2\29"+
+		"\2\2\64\65\3\2\2\2\65\66\b\5\1\2\66\t\3\2\2\2\67<\5\20\t\289\7\4\2\29"+
 		":\5\f\7\2:;\b\6\1\2;=\3\2\2\2<8\3\2\2\2=>\3\2\2\2><\3\2\2\2>?\3\2\2\2"+
-		"?@\3\2\2\2@A\7\4\2\2AB\b\6\1\2B\13\3\2\2\2CD\7\t\2\2DF\b\7\1\2EC\3\2\2"+
+		"?@\3\2\2\2@A\7\5\2\2AB\b\6\1\2B\13\3\2\2\2CD\7\t\2\2DF\b\7\1\2EC\3\2\2"+
 		"\2FG\3\2\2\2GE\3\2\2\2GH\3\2\2\2HI\3\2\2\2IJ\b\7\1\2J\r\3\2\2\2KL\5\20"+
-		"\t\2LN\7\5\2\2MO\5\b\5\2NM\3\2\2\2NO\3\2\2\2OP\3\2\2\2PR\7\3\2\2QS\7\t"+
-		"\2\2RQ\3\2\2\2ST\3\2\2\2TU\3\2\2\2TR\3\2\2\2UV\3\2\2\2VZ\7\6\2\2WY\7\t"+
+		"\t\2LN\7\6\2\2MO\5\b\5\2NM\3\2\2\2NO\3\2\2\2OP\3\2\2\2PR\7\3\2\2QS\7\t"+
+		"\2\2RQ\3\2\2\2ST\3\2\2\2TU\3\2\2\2TR\3\2\2\2UV\3\2\2\2VZ\7\7\2\2WY\7\t"+
 		"\2\2XW\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2Z[\3\2\2\2[]\3\2\2\2\\Z\3\2\2\2]^\7"+
-		"\4\2\2^_\b\b\1\2_\17\3\2\2\2`a\7\t\2\2ac\b\t\1\2b`\3\2\2\2cd\3\2\2\2d"+
+		"\5\2\2^_\b\b\1\2_\17\3\2\2\2`a\7\t\2\2ac\b\t\1\2b`\3\2\2\2cd\3\2\2\2d"+
 		"b\3\2\2\2de\3\2\2\2ef\3\2\2\2fg\b\t\1\2g\21\3\2\2\2\f\30\36\'\63>GNTZ"+
 		"d";
 	public static final ATN _ATN =

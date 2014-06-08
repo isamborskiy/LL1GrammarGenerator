@@ -1,23 +1,41 @@
 grammar Postfix $
 
-s[int i]
-	| N a[i+1] EOF
-	{
-		i++;
-		System.out.print(i);
-	}
-	| EPS EOF
+s	
+	# e EOF
+	# EPS EOF
+	$
+
+e
+	# t es
 	$
 	
-a[int i]
-	| N a[i] SIGN a[i]
-	{
-		i++;
-		System.out.print(i);
-	}
-	| EPS
+es
+	# OR t es
+	# XOR t es
+	# EPS
 	$
 	
-SIGN: ([+\-*]) $
-N	: ([0-9]+) $
-SKIP: ([ \t\r\n]) -> skip $
+t
+	# f ts
+	$
+	
+ts	
+	# AND f ts
+	# EPS
+	$
+	
+f
+	# NOT f
+	# V
+	# LEFT e RIGHT
+	$
+	
+	
+OR		: (or) $
+XOR		: (xor) $
+AND		: (and) $
+NOT		: (not) $
+LEFT	: ([\(]) $
+RIGHT	: ([\)]) $
+V		: ([a-z]+) $
+SKIP	: ([ \t\r\n]) -> skip $
