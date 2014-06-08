@@ -9,21 +9,36 @@ import org.StructureGraphic.v1.DSTreeNode;
 import org.StructureGraphic.v1.DSutils;
 
 public class Tree implements DSTreeNode {
-	public String node;
-	public List<Tree> children;
+	private String node = "";
+	private String text = "";
+	private List<Tree> children;
 
-	public Tree(String node, Tree... children) {
+	public Tree(String node, String text, Tree... children) {
 		this.node = node;
+		this.text = text;
 		this.children = Arrays.asList(children);
 	}
 
-	public Tree(String node) {
+	public Tree(String node, String text) {
 		this.node = node;
+		this.text = text;
 		this.children = new ArrayList<>();
 	}
-	
+
 	public void show() {
 		DSutils.show(this, 60, 30);
+	}
+
+	public int size() {
+		return children.size();
+	}
+
+	public Tree get(int i) {
+		return children.get(i);
+	}
+
+	public String getText() {
+		return text;
 	}
 
 	@Override
@@ -51,7 +66,6 @@ public class Tree implements DSTreeNode {
 
 	@Override
 	public Object DSgetValue() {
-		return node;
+		return node + (text.isEmpty() ? "" : " [" + text + "]");
 	}
 }
-

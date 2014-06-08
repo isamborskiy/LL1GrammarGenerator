@@ -21,13 +21,13 @@ public class ParserGenerator {
 	private static final String TERMINAL = TAP4
 			+ "if (lex.curTerminal().get().equals(\"%s\")) {\n"
 			+ TAP5
-			+ "_%s = new Tree(lex.curToken() + \"(\" + lex.curTerminal().get() + \")\");\n"
+			+ "_%s = new Tree(lex.curTerminal().get(), lex.curToken());\n"
 			+ TAP4 + "} else {\n" + TAP5 + "throw new AssertionError();\n"
 			+ TAP4 + "}\n" + TAP4 + "lex.nextToken();\n";
 	private static final String NONTERMINAL = TAP4
 			+ "_%s = new %s().parse(%s);\n";
 	private static final String EPS_TERMINAL = TAP4
-			+ "_%s = new Tree(\"(EPS)\");\n";
+			+ "_%s = new Tree(\"EPS\", \"\");\n";
 
 	public static void generate(String grammarName, Nonterminal start,
 			Map<Nonterminal, List<Rule>> rules,
@@ -127,7 +127,7 @@ public class ParserGenerator {
 						elem.get(), ((Nonterminal) elem).getInher()));
 			}
 		}
-		c.append(String.format(TAP4 + "res = new Tree(\"%s\"", nonterm.get()));
+		c.append(String.format(TAP4 + "res = new Tree(\"%s\", \"\"", nonterm.get()));
 		for (int i = 0; i < rule.size(); i++) {
 			c.append(String.format(", _%s", String.valueOf(i)));
 		}
