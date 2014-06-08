@@ -1,41 +1,43 @@
 grammar Postfix $
 
-s	
-	# e EOF
+decl
 	# EPS EOF
+	# block decl EOF
+	$
+	
+block
+	# type amp var
+	$
+	
+type
+	# BOOL
+	# INT
+	# LONG
+	# CHAR
 	$
 
-e
-	# t es
-	$
-	
-es
-	# OR t es
-	# XOR t es
+amp
 	# EPS
+	# AND
+	$
+
+var 
+	# STAR
+	# NAME next
 	$
 	
-t
-	# f ts
+next
+	# SEMICOLON
+	# COMMA var
 	$
-	
-ts	
-	# AND f ts
-	# EPS
-	$
-	
-f
-	# NOT f
-	# V
-	# LEFT e RIGHT
-	$
-	
-	
-OR		: (or) $
-XOR		: (xor) $
-AND		: (and) $
-NOT		: (not) $
-LEFT	: ([\(]) $
-RIGHT	: ([\)]) $
-V		: ([a-z]+) $
-SKIP	: ([ \t\r\n]) -> skip $
+
+BOOL		: (bool) $
+INT			: (int) $
+LONG		: (long) $
+CHAR		: (char) $
+SEMICOLON	: ([;]) $
+COMMA		: ([,]) $
+STAR		: ([*]) $
+AND			: ([&]) $
+NAME		: ([a-z]+) $
+SKIP		: ([ \t\r\n]) -> skip $

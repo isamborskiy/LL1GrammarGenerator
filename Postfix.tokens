@@ -1,9 +1,11 @@
-OR:or
-NOT:not
-LEFT:[\(]
-V:[a-z]+
-AND:and
-XOR:xor
-RIGHT:[\)]
+COMMA:[,]
+BOOL:bool
+AND:[&]
+SEMICOLON:[;]
+STAR:[*]
+LONG:long
+CHAR:char
+NAME:[a-z]+
+INT:int
 
 SKIP:[ \t\r\n]

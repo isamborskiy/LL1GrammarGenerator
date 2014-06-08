@@ -9,213 +9,57 @@ public class PostfixParser {
 	
 	public PostfixParser(String inputFile) throws IOException, ParseException {
 		lex = new PostfixLexer(inputFile);
-		root = new s().parse();
+		root = new decl().parse();
 	}
 	
 	public Tree getTree() {
 		return root;
 	}
 
-	private class s {
+	private class next {
 		public Tree parse() {
 			Tree res = null;
 			Tree _0 = null, _1 = null;
 			switch(lex.curTerminal().get()) {
-			case "NOT":
-				_0 = new e().parse();
-				if (lex.curTerminal().get().equals("EOF")) {
-					_1 = new Tree(lex.curTerminal().get(), lex.curToken());
+			case "SEMICOLON":
+				if (lex.curTerminal().get().equals("SEMICOLON")) {
+					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
 				} else {
 					throw new AssertionError();
 				}
 				lex.nextToken();
-				res = new Tree("s", "", _0, _1);
+				res = new Tree("next", "", _0);
 				break;
-			case "V":
-				_0 = new e().parse();
-				if (lex.curTerminal().get().equals("EOF")) {
-					_1 = new Tree(lex.curTerminal().get(), lex.curToken());
+			case "COMMA":
+				if (lex.curTerminal().get().equals("COMMA")) {
+					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
 				} else {
 					throw new AssertionError();
 				}
 				lex.nextToken();
-				res = new Tree("s", "", _0, _1);
+				_1 = new var().parse();
+				res = new Tree("next", "", _0, _1);
 				break;
-			case "LEFT":
-				_0 = new e().parse();
-				if (lex.curTerminal().get().equals("EOF")) {
-					_1 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				res = new Tree("s", "", _0, _1);
-				break;
-			case "EOF":
+			default:
+				throw new AssertionError();
+			}
+			return res;
+		}
+	}
+
+	private class amp {
+		public Tree parse() {
+			Tree res = null;
+			Tree _0 = null;
+			switch(lex.curTerminal().get()) {
+			case "STAR":
 				_0 = new Tree("EPS", "");
-				if (lex.curTerminal().get().equals("EOF")) {
-					_1 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				res = new Tree("s", "", _0, _1);
+				res = new Tree("amp", "", _0);
 				break;
-			default:
-				throw new AssertionError();
-			}
-			return res;
-		}
-	}
-
-	private class t {
-		public Tree parse() {
-			Tree res = null;
-			Tree _0 = null, _1 = null;
-			switch(lex.curTerminal().get()) {
-			case "NOT":
-				_0 = new f().parse();
-				_1 = new ts().parse();
-				res = new Tree("t", "", _0, _1);
-				break;
-			case "V":
-				_0 = new f().parse();
-				_1 = new ts().parse();
-				res = new Tree("t", "", _0, _1);
-				break;
-			case "LEFT":
-				_0 = new f().parse();
-				_1 = new ts().parse();
-				res = new Tree("t", "", _0, _1);
-				break;
-			default:
-				throw new AssertionError();
-			}
-			return res;
-		}
-	}
-
-	private class e {
-		public Tree parse() {
-			Tree res = null;
-			Tree _0 = null, _1 = null;
-			switch(lex.curTerminal().get()) {
-			case "NOT":
-				_0 = new t().parse();
-				_1 = new es().parse();
-				res = new Tree("e", "", _0, _1);
-				break;
-			case "V":
-				_0 = new t().parse();
-				_1 = new es().parse();
-				res = new Tree("e", "", _0, _1);
-				break;
-			case "LEFT":
-				_0 = new t().parse();
-				_1 = new es().parse();
-				res = new Tree("e", "", _0, _1);
-				break;
-			default:
-				throw new AssertionError();
-			}
-			return res;
-		}
-	}
-
-	private class f {
-		public Tree parse() {
-			Tree res = null;
-			Tree _0 = null, _1 = null, _2 = null;
-			switch(lex.curTerminal().get()) {
-			case "NOT":
-				if (lex.curTerminal().get().equals("NOT")) {
-					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				_1 = new f().parse();
-				res = new Tree("f", "", _0, _1);
-				break;
-			case "V":
-				if (lex.curTerminal().get().equals("V")) {
-					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				res = new Tree("f", "", _0);
-				break;
-			case "LEFT":
-				if (lex.curTerminal().get().equals("LEFT")) {
-					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				_1 = new e().parse();
-				if (lex.curTerminal().get().equals("RIGHT")) {
-					_2 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				res = new Tree("f", "", _0, _1, _2);
-				break;
-			default:
-				throw new AssertionError();
-			}
-			return res;
-		}
-	}
-
-	private class es {
-		public Tree parse() {
-			Tree res = null;
-			Tree _0 = null, _1 = null, _2 = null;
-			switch(lex.curTerminal().get()) {
-			case "OR":
-				if (lex.curTerminal().get().equals("OR")) {
-					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				_1 = new t().parse();
-				_2 = new es().parse();
-				res = new Tree("es", "", _0, _1, _2);
-				break;
-			case "XOR":
-				if (lex.curTerminal().get().equals("XOR")) {
-					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				_1 = new t().parse();
-				_2 = new es().parse();
-				res = new Tree("es", "", _0, _1, _2);
-				break;
-			case "EOF":
+			case "NAME":
 				_0 = new Tree("EPS", "");
-				res = new Tree("es", "", _0);
+				res = new Tree("amp", "", _0);
 				break;
-			case "RIGHT":
-				_0 = new Tree("EPS", "");
-				res = new Tree("es", "", _0);
-				break;
-			default:
-				throw new AssertionError();
-			}
-			return res;
-		}
-	}
-
-	private class ts {
-		public Tree parse() {
-			Tree res = null;
-			Tree _0 = null, _1 = null, _2 = null;
-			switch(lex.curTerminal().get()) {
 			case "AND":
 				if (lex.curTerminal().get().equals("AND")) {
 					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
@@ -223,25 +67,188 @@ public class PostfixParser {
 					throw new AssertionError();
 				}
 				lex.nextToken();
-				_1 = new f().parse();
-				_2 = new ts().parse();
-				res = new Tree("ts", "", _0, _1, _2);
+				res = new Tree("amp", "", _0);
 				break;
-			case "OR":
-				_0 = new Tree("EPS", "");
-				res = new Tree("ts", "", _0);
-				break;
+			default:
+				throw new AssertionError();
+			}
+			return res;
+		}
+	}
+
+	private class decl {
+		public Tree parse() {
+			Tree res = null;
+			Tree _0 = null, _1 = null, _2 = null;
+			switch(lex.curTerminal().get()) {
 			case "EOF":
 				_0 = new Tree("EPS", "");
-				res = new Tree("ts", "", _0);
+				if (lex.curTerminal().get().equals("EOF")) {
+					_1 = new Tree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				res = new Tree("decl", "", _0, _1);
 				break;
-			case "XOR":
-				_0 = new Tree("EPS", "");
-				res = new Tree("ts", "", _0);
+			case "BOOL":
+				_0 = new block().parse();
+				_1 = new decl().parse();
+				if (lex.curTerminal().get().equals("EOF")) {
+					_2 = new Tree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				res = new Tree("decl", "", _0, _1, _2);
 				break;
-			case "RIGHT":
-				_0 = new Tree("EPS", "");
-				res = new Tree("ts", "", _0);
+			case "LONG":
+				_0 = new block().parse();
+				_1 = new decl().parse();
+				if (lex.curTerminal().get().equals("EOF")) {
+					_2 = new Tree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				res = new Tree("decl", "", _0, _1, _2);
+				break;
+			case "CHAR":
+				_0 = new block().parse();
+				_1 = new decl().parse();
+				if (lex.curTerminal().get().equals("EOF")) {
+					_2 = new Tree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				res = new Tree("decl", "", _0, _1, _2);
+				break;
+			case "INT":
+				_0 = new block().parse();
+				_1 = new decl().parse();
+				if (lex.curTerminal().get().equals("EOF")) {
+					_2 = new Tree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				res = new Tree("decl", "", _0, _1, _2);
+				break;
+			default:
+				throw new AssertionError();
+			}
+			return res;
+		}
+	}
+
+	private class var {
+		public Tree parse() {
+			Tree res = null;
+			Tree _0 = null, _1 = null;
+			switch(lex.curTerminal().get()) {
+			case "STAR":
+				if (lex.curTerminal().get().equals("STAR")) {
+					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				res = new Tree("var", "", _0);
+				break;
+			case "NAME":
+				if (lex.curTerminal().get().equals("NAME")) {
+					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				_1 = new next().parse();
+				res = new Tree("var", "", _0, _1);
+				break;
+			default:
+				throw new AssertionError();
+			}
+			return res;
+		}
+	}
+
+	private class block {
+		public Tree parse() {
+			Tree res = null;
+			Tree _0 = null, _1 = null, _2 = null;
+			switch(lex.curTerminal().get()) {
+			case "BOOL":
+				_0 = new type().parse();
+				_1 = new amp().parse();
+				_2 = new var().parse();
+				res = new Tree("block", "", _0, _1, _2);
+				break;
+			case "LONG":
+				_0 = new type().parse();
+				_1 = new amp().parse();
+				_2 = new var().parse();
+				res = new Tree("block", "", _0, _1, _2);
+				break;
+			case "CHAR":
+				_0 = new type().parse();
+				_1 = new amp().parse();
+				_2 = new var().parse();
+				res = new Tree("block", "", _0, _1, _2);
+				break;
+			case "INT":
+				_0 = new type().parse();
+				_1 = new amp().parse();
+				_2 = new var().parse();
+				res = new Tree("block", "", _0, _1, _2);
+				break;
+			default:
+				throw new AssertionError();
+			}
+			return res;
+		}
+	}
+
+	private class type {
+		public Tree parse() {
+			Tree res = null;
+			Tree _0 = null;
+			switch(lex.curTerminal().get()) {
+			case "BOOL":
+				if (lex.curTerminal().get().equals("BOOL")) {
+					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				res = new Tree("type", "", _0);
+				break;
+			case "INT":
+				if (lex.curTerminal().get().equals("INT")) {
+					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				res = new Tree("type", "", _0);
+				break;
+			case "LONG":
+				if (lex.curTerminal().get().equals("LONG")) {
+					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				res = new Tree("type", "", _0);
+				break;
+			case "CHAR":
+				if (lex.curTerminal().get().equals("CHAR")) {
+					_0 = new Tree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				res = new Tree("type", "", _0);
 				break;
 			default:
 				throw new AssertionError();

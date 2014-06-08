@@ -50,8 +50,6 @@ public class PostfixLexer {
 			parse(input.toString());
 		}
 		
-		tokens.add("");
-		tokenToTerm.add(Terminal.EOF);
 	}
 
 	private void parse(String str) throws ParseException {
@@ -109,10 +107,12 @@ public class PostfixLexer {
 	}
 	
 	public String curToken() {
+		if (curTokenNumber >= tokens.size()) return "";
 		return tokens.get(curTokenNumber);
 	}
 	
 	public Terminal curTerminal() {
+		if (curTokenNumber >= tokens.size()) return Terminal.EOF;
 		return tokenToTerm.get(curTokenNumber);
 	}
 	
