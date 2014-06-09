@@ -1,0 +1,20 @@
+EQUAL:=
+BOOLEAN:boolean
+NUMBER:[[0-9]+]
+CLASS:class
+LEFT:{
+FLOAT:float
+TRUE:true
+RIGHTROUND:)
+PRIVATE:private
+NAME:[a-zA-Z]+
+INT:int
+LEFTROUND:(
+SEMICOLON:[;]
+PUBLIC:public
+LONG:long
+DOUBLE:double
+FALSE:false
+RIGHT:}
+
+SKIP:[ \t\r\n]

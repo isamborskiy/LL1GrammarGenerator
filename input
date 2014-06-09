@@ -1,1 +1,6 @@
-4 + 5 * 6
+public class Test {
+	public int a = 5;
+	boolean isTrue = true;
+	
+	private int foo() {}
+}

@@ -1,0 +1,62 @@
+grammar JavaGrammar $
+
+prog
+	# classDeclaration EOF
+	$
+	
+classDeclaration
+	# modifier CLASS NAME LEFT bodyDeclaration RIGHT
+	$
+	
+bodyDeclaration
+	# declaration classElement bodyDeclaration
+	# EPS
+	$
+	
+declaration
+	# modifier type NAME
+	# type NAME
+	$
+	
+classElement
+	# EQUAL expression SEMICOLON
+	# LEFTROUND RIGHTROUND LEFT RIGHT
+	$
+	
+modifier
+	# PUBLIC
+	# PRIVATE
+	$
+	
+type
+	# INT
+	# LONG
+	# BOOLEAN
+	$
+
+expression
+	# NUMBER
+	# TRUE
+	# FALSE
+	$
+	
+PUBLIC		: (public) $
+PRIVATE		: (private) $
+CLASS		: (class) $
+LEFT		: ({) $
+RIGHT		: (}) $
+LEFTROUND	: (() $
+RIGHTROUND	: ()) $
+SEMICOLON	: ([;]) $
+EQUAL		: (=) $
+INT			: (int) $
+LONG		: (long) $
+FLOAT		: (float) $
+DOUBLE		: (double) $
+BOOLEAN		: (boolean) $
+TRUE		: (true) $
+FALSE		: (false) $
+NAME		: ([a-zA-Z]+) $
+NUMBER		: ([[0-9]+]) $
+
+SKIP		: ([ \t\r\n]) -> skip $

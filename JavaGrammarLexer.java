@@ -8,8 +8,8 @@ import java.util.StringTokenizer;
 
 import com.samborskiy.elements.Terminal;
 
-public class ExpressionLexer {
-	private static final String TOKENS_FILE = "Expression.tokens";
+public class JavaGrammarLexer {
+	private static final String TOKENS_FILE = "JavaGrammar.tokens";
 	
 	private StringBuilder input = new StringBuilder();
 	private int curTokenNumber = 0;
@@ -18,7 +18,7 @@ public class ExpressionLexer {
 	private List<Terminal> terminals = new ArrayList<>();
 	private Terminal skipTerminal;
 
-	public ExpressionLexer(String fileName) throws IOException, ParseException {
+	public JavaGrammarLexer(String fileName) throws IOException, ParseException {
 		BufferedReader bf = new BufferedReader(new FileReader(fileName));
 		String line = "";
 		while ((line = bf.readLine()) != null) {
@@ -84,13 +84,18 @@ public class ExpressionLexer {
 			}
 			if (curTerm == null) {
 				for (Terminal term : terminals) {
+					if (term.isConst() && cur.equals(term.match())) {
+						tokens.add(cur);
+						tokenToTerm.add(term);
+						cur = "";
+						break;
+					}
 					if (!term.isConst() && cur.matches(term.match())) {
 						curTerm = term;
 						break;
 					}
 				}
-			}
-		}
+			}		}
 		if (cur.isEmpty()) {
 			return;
 		}
