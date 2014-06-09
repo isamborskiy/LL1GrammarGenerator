@@ -8,8 +8,8 @@ import java.util.StringTokenizer;
 
 import com.samborskiy.elements.Terminal;
 
-public class PostfixLexer {
-	private static final String TOKENS_FILE = "Postfix.tokens";
+public class ExpressionLexer {
+	private static final String TOKENS_FILE = "Expression.tokens";
 	
 	private StringBuilder input = new StringBuilder();
 	private int curTokenNumber = 0;
@@ -18,7 +18,7 @@ public class PostfixLexer {
 	private List<Terminal> terminals = new ArrayList<>();
 	private Terminal skipTerminal;
 
-	public PostfixLexer(String fileName) throws IOException, ParseException {
+	public ExpressionLexer(String fileName) throws IOException, ParseException {
 		BufferedReader bf = new BufferedReader(new FileReader(fileName));
 		String line = "";
 		while ((line = bf.readLine()) != null) {
@@ -84,7 +84,7 @@ public class PostfixLexer {
 			}
 			if (curTerm == null) {
 				for (Terminal term : terminals) {
-					if (cur.matches(term.match())) {
+					if (!term.isConst() && cur.matches(term.match())) {
 						curTerm = term;
 						break;
 					}

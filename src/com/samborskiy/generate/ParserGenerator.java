@@ -3,6 +3,7 @@ package com.samborskiy.generate;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -76,7 +77,7 @@ public class ParserGenerator {
 
 			for (Rule rule : rules.get(nonterm)) {
 				Element elem = rule.get(0);
-				List<Terminal> list = new ArrayList<>();
+				Set<Terminal> list = new HashSet<>();
 				if (elem.isTerm()) {
 					list.add((Terminal) elem);
 				} else {

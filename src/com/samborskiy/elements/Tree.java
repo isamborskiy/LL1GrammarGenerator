@@ -13,7 +13,7 @@ public abstract class Tree implements DSTreeNode {
 	protected List<Tree> children = new ArrayList<>();
 
 	public void show() {
-		DSutils.show(this, 60, 30);
+		DSutils.show(this, 80, 30);
 	}
 
 	public int size() {

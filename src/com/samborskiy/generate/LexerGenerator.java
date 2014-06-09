@@ -95,7 +95,7 @@ public class LexerGenerator {
 						+ "\t\t\t}\n"
 						+ "\t\t\tif (curTerm == null) {\n"
 						+ "\t\t\t\tfor (Terminal term : terminals) {\n"
-						+ "\t\t\t\t\tif (cur.matches(term.match())) {\n"
+						+ "\t\t\t\t\tif (!term.isConst() && cur.matches(term.match())) {\n"
 						+ "\t\t\t\t\t\tcurTerm = term;\n"
 						+ "\t\t\t\t\t\tbreak;\n"
 						+ "\t\t\t\t\t}\n"

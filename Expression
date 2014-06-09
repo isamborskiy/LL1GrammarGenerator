@@ -1,0 +1,31 @@
+grammar Expression $
+
+e
+	# t es
+	$
+
+es
+	# PLUS t es
+	# EPS
+	$
+
+t
+	# f ts
+	$
+
+ts
+	# MUL f ts
+	# EPS
+	$ 
+
+f
+	# N
+	# LEFT e RIGHT
+	$
+	
+PLUS	: ([+]) $
+MUL		: ([*]) $
+LEFT	: ([(]) $
+RIGHT	: ([)]) $
+N		: ([0|([1-9][0-9]*)]) $
+SKIP	: ([ \t\r\n]) -> skip $
