@@ -471,12 +471,13 @@ public class GrammarParser extends Parser {
 					if (nameStr.contains("[")) {
 						String[] arr = nameStr.split("returns");
 						if (arr[0].contains("[")) {
-							inher = nameStr.substring(nameStr.indexOf("[") + 1, nameStr.indexOf("]"));
+							inher = arr[0].substring(arr[0].indexOf("[") + 1, arr[0].indexOf("]"));
 						}
 						if (arr.length > 1) {
 							synth = arr[1].substring(arr[1].indexOf("[") + 1, arr[1].indexOf("]"));
+							nameStr = arr[0];
 						}
-						nameStr = ((NontermContext)_localctx).name.val.substring(0, ((NontermContext)_localctx).name.val.indexOf("[")).replaceAll("\\s+", "");
+						nameStr = nameStr.substring(0, nameStr.indexOf("[") == -1 ? nameStr.length() : nameStr.indexOf("[")).replaceAll("\\s+", "");
 					}
 					if (nameStr.charAt(0) >= 'a' && nameStr.charAt(0) <= 'z') {
 						Nonterminal nonterm = new Nonterminal(nameStr);

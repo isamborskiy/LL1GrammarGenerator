@@ -1,11 +1,4 @@
-COMMA:[,]
-BOOL:bool
-AND:[&]
-SEMICOLON:[;]
-STAR:[*]
-LONG:long
-CHAR:char
-NAME:[a-z]+
-INT:int
+SIGN:[+\-*]
+N:0|([1-9][0-9]*)
 
 SKIP:[ \t\r\n]

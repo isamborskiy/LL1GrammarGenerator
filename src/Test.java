@@ -1,6 +1,7 @@
+
 public class Test {
 	public static void main(String[] args) throws Exception {
-		Generator.main(new String[] { "Postfix", "decl" });
+//		Generator.main(new String[] { "Postfix", "s" });
 		PostfixParser parser = new PostfixParser("input", 1230);
 		parser.getTree().show();
 	}
