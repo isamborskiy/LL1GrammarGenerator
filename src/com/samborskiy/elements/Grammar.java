@@ -20,6 +20,7 @@ public class Grammar {
 	public Set<Terminal> terminals = new HashSet<>();
 	public Nonterminal start;
 	public Terminal skipTerminal;
+	public String headerCode = "";
 	public String grammarName = "";
 
 	public Grammar(String... args) throws Exception {
@@ -28,8 +29,8 @@ public class Grammar {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokens);
 		parser.gram();
-//		 RuleContext tree = parser.gram();
-//		 tree.inspect(parser);
+		// RuleContext tree = parser.gram();
+		// tree.inspect(parser);
 
 		if (parser.hasError) {
 			throw new Exception(parser.errorMessage);
@@ -39,6 +40,7 @@ public class Grammar {
 		terminals = parser.terminals;
 		grammarName = parser.grammarName;
 		skipTerminal = parser.skipTerminal;
+		headerCode = parser.headerCode;
 		start = new Nonterminal(args[1]);
 		if (!rules.keySet().contains(start)) {
 			throw new IllegalArgumentException("Nonterminal " + args[1]
@@ -54,7 +56,7 @@ public class Grammar {
 
 		LexerGenerator.generate(grammarName, skipTerminal);
 		ParserGenerator.generate(grammarName, start, rules, getFirst(),
-				getFollow());
+				getFollow(), headerCode);
 	}
 
 	private Map<Nonterminal, Set<Terminal>> first = null;

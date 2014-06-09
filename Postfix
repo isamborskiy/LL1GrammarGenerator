@@ -1,8 +1,11 @@
 grammar Postfix $
 
-decl
+decl[int i]
 	# EPS EOF
-	# block decl EOF
+	# block decl[i]
+	{
+		System.out.println("BLABLABLA " + i);
+	}
 	$
 	
 block
@@ -22,7 +25,7 @@ amp
 	$
 
 var 
-	# STAR
+	# STAR var
 	# NAME next
 	$
 	

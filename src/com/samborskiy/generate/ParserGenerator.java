@@ -19,8 +19,7 @@ public class ParserGenerator {
 	private static final String TAP5 = "\t\t\t\t\t";
 
 	private static final String TERMINAL = TAP4
-			+ "if (lex.curTerminal().get().equals(\"%s\")) {\n"
-			+ TAP5
+			+ "if (lex.curTerminal().get().equals(\"%s\")) {\n" + TAP5
 			+ "_%s = new Tree(lex.curTerminal().get(), lex.curToken());\n"
 			+ TAP4 + "} else {\n" + TAP5 + "throw new AssertionError();\n"
 			+ TAP4 + "}\n" + TAP4 + "lex.nextToken();\n";
@@ -32,9 +31,10 @@ public class ParserGenerator {
 	public static void generate(String grammarName, Nonterminal start,
 			Map<Nonterminal, List<Rule>> rules,
 			Map<Nonterminal, Set<Terminal>> first,
-			Map<Nonterminal, Set<Terminal>> follow) throws IOException {
+			Map<Nonterminal, Set<Terminal>> follow, String headerCode)
+			throws IOException {
 		StringBuilder out = new StringBuilder();
-		out.append("import java.io.IOException;\n"
+		out.append(headerCode + "\nimport java.io.IOException;\n"
 				+ "import java.text.ParseException;\n" + "\n"
 				+ "import com.samborskiy.elements.Tree;\n" + "\n"
 				+ "public class "
@@ -66,7 +66,8 @@ public class ParserGenerator {
 
 		for (Nonterminal nonterm : rules.keySet()) {
 			StringBuilder function = new StringBuilder("\tprivate class "
-					+ nonterm.get() + " {\n\t\tpublic Tree parse(" + nonterm.getInher() + ") {\n");
+					+ nonterm.get() + " {\n\t\tpublic Tree parse("
+					+ nonterm.getInher() + ") {\n");
 			function.append(TAP3 + "Tree res = null;\n");
 			int max = -1;
 			for (Rule rule : rules.get(nonterm)) {
@@ -127,7 +128,8 @@ public class ParserGenerator {
 						elem.get(), ((Nonterminal) elem).getInher()));
 			}
 		}
-		c.append(String.format(TAP4 + "res = new Tree(\"%s\", \"\"", nonterm.get()));
+		c.append(String.format(TAP4 + "res = new Tree(\"%s\", \"\"",
+				nonterm.get()));
 		for (int i = 0; i < rule.size(); i++) {
 			c.append(String.format(", _%s", String.valueOf(i)));
 		}

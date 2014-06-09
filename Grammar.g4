@@ -12,6 +12,7 @@ grammar Grammar;
 	public Map<Nonterminal, List<Rule>> rules = new HashMap<>();
 	public String grammarName = "";
 	public Terminal skipTerminal = null;
+	public String headerCode = "";
 	public boolean hasError = false;
 	public String errorMessage = "";
 	
@@ -26,8 +27,12 @@ grammar Grammar;
 }
 
 gram
-	: 'grammar' name '$' (rules)* SYMBOL* EOF
+	@init{String header = "";}
+	: 'grammar' name '$' (SYMBOL+? '@header' (SYMBOL{header += $SYMBOL.text;})+ '$')? (rules)* SYMBOL* EOF
 	{
+		if (header.contains("{") && header.contains("}")) {
+			headerCode = header.substring(header.indexOf("{") + 1, header.lastIndexOf("}"));
+		}
 		grammarName = $name.val;
 		if (terminals.contains(Terminal.EPS) || terminals.contains(Terminal.EOF)) {
 			errorMessage = "EPS and EOF are reserved names.";

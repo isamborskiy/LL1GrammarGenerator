@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -7,9 +8,9 @@ public class PostfixParser {
 	private PostfixLexer lex;
 	private Tree root;
 	
-	public PostfixParser(String inputFile) throws IOException, ParseException {
+	public PostfixParser(String inputFile, int i) throws IOException, ParseException {
 		lex = new PostfixLexer(inputFile);
-		root = new decl().parse();
+		root = new decl().parse(i);
 	}
 	
 	public Tree getTree() {
@@ -77,9 +78,9 @@ public class PostfixParser {
 	}
 
 	private class decl {
-		public Tree parse() {
+		public Tree parse(int i) {
 			Tree res = null;
-			Tree _0 = null, _1 = null, _2 = null;
+			Tree _0 = null, _1 = null;
 			switch(lex.curTerminal().get()) {
 			case "EOF":
 				_0 = new Tree("EPS", "");
@@ -93,47 +94,35 @@ public class PostfixParser {
 				break;
 			case "BOOL":
 				_0 = new block().parse();
-				_1 = new decl().parse();
-				if (lex.curTerminal().get().equals("EOF")) {
-					_2 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				res = new Tree("decl", "", _0, _1, _2);
+				_1 = new decl().parse(i);
+				res = new Tree("decl", "", _0, _1);
+				{
+						System.out.println("BLABLABLA " + i);
+					}
 				break;
 			case "LONG":
 				_0 = new block().parse();
-				_1 = new decl().parse();
-				if (lex.curTerminal().get().equals("EOF")) {
-					_2 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				res = new Tree("decl", "", _0, _1, _2);
+				_1 = new decl().parse(i);
+				res = new Tree("decl", "", _0, _1);
+				{
+						System.out.println("BLABLABLA " + i);
+					}
 				break;
 			case "CHAR":
 				_0 = new block().parse();
-				_1 = new decl().parse();
-				if (lex.curTerminal().get().equals("EOF")) {
-					_2 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				res = new Tree("decl", "", _0, _1, _2);
+				_1 = new decl().parse(i);
+				res = new Tree("decl", "", _0, _1);
+				{
+						System.out.println("BLABLABLA " + i);
+					}
 				break;
 			case "INT":
 				_0 = new block().parse();
-				_1 = new decl().parse();
-				if (lex.curTerminal().get().equals("EOF")) {
-					_2 = new Tree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
-				res = new Tree("decl", "", _0, _1, _2);
+				_1 = new decl().parse(i);
+				res = new Tree("decl", "", _0, _1);
+				{
+						System.out.println("BLABLABLA " + i);
+					}
 				break;
 			default:
 				throw new AssertionError();
@@ -154,7 +143,8 @@ public class PostfixParser {
 					throw new AssertionError();
 				}
 				lex.nextToken();
-				res = new Tree("var", "", _0);
+				_1 = new var().parse();
+				res = new Tree("var", "", _0, _1);
 				break;
 			case "NAME":
 				if (lex.curTerminal().get().equals("NAME")) {
