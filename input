@@ -1,6 +1,8 @@
 public class Test {
-	public int a = 5;
+	public int a = -5;
 	boolean isTrue = true;
+	String str = new String(true);
 	
-	private int foo() {}
+	private int sum(int a, int b) {
+	}
 }

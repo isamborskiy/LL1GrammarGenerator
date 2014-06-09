@@ -52,23 +52,27 @@ public class JavaGrammarParser {
 					throw new AssertionError();
 				}
 				lex.nextToken();
-				Tree _1 = null;
-				if (lex.curTerminal().get().equals("RIGHTROUND")) {
-					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError();
-				}
-				lex.nextToken();
+				arguments _1 = null;
+				_1 = new arguments();
 				Tree _2 = null;
-				if (lex.curTerminal().get().equals("LEFT")) {
+				if (lex.curTerminal().get().equals("RIGHTROUND")) {
 					_2 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
 				} else {
 					throw new AssertionError();
 				}
 				lex.nextToken();
 				Tree _3 = null;
-				if (lex.curTerminal().get().equals("RIGHT")) {
+				if (lex.curTerminal().get().equals("LEFT")) {
 					_3 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				functionBody _4 = null;
+				_4 = new functionBody();
+				Tree _5 = null;
+				if (lex.curTerminal().get().equals("RIGHT")) {
+					_5 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
 				} else {
 					throw new AssertionError();
 				}
@@ -77,6 +81,19 @@ public class JavaGrammarParser {
 				children.add(_1);
 				children.add(_2);
 				children.add(_3);
+				children.add(_4);
+				children.add(_5);
+				}
+				break;
+			case "SEMICOLON": {
+				Tree _0 = null;
+				if (lex.curTerminal().get().equals("SEMICOLON")) {
+					_0 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
 				}
 				break;
 			default:
@@ -108,82 +125,6 @@ public class JavaGrammarParser {
 					throw new AssertionError();
 				}
 				lex.nextToken();
-				children.add(_0);
-				}
-				break;
-			default:
-				throw new AssertionError();
-			}
-					}
-	}
-
-	public class bodyDeclaration extends Tree {
-		public bodyDeclaration() {
-			node = "bodyDeclaration";
-			switch(lex.curTerminal().get()) {
-			case "BOOLEAN": {
-				declaration _0 = null;
-				_0 = new declaration();
-				classElement _1 = null;
-				_1 = new classElement();
-				bodyDeclaration _2 = null;
-				_2 = new bodyDeclaration();
-				children.add(_0);
-				children.add(_1);
-				children.add(_2);
-				}
-				break;
-			case "PUBLIC": {
-				declaration _0 = null;
-				_0 = new declaration();
-				classElement _1 = null;
-				_1 = new classElement();
-				bodyDeclaration _2 = null;
-				_2 = new bodyDeclaration();
-				children.add(_0);
-				children.add(_1);
-				children.add(_2);
-				}
-				break;
-			case "LONG": {
-				declaration _0 = null;
-				_0 = new declaration();
-				classElement _1 = null;
-				_1 = new classElement();
-				bodyDeclaration _2 = null;
-				_2 = new bodyDeclaration();
-				children.add(_0);
-				children.add(_1);
-				children.add(_2);
-				}
-				break;
-			case "PRIVATE": {
-				declaration _0 = null;
-				_0 = new declaration();
-				classElement _1 = null;
-				_1 = new classElement();
-				bodyDeclaration _2 = null;
-				_2 = new bodyDeclaration();
-				children.add(_0);
-				children.add(_1);
-				children.add(_2);
-				}
-				break;
-			case "INT": {
-				declaration _0 = null;
-				_0 = new declaration();
-				classElement _1 = null;
-				_1 = new classElement();
-				bodyDeclaration _2 = null;
-				_2 = new bodyDeclaration();
-				children.add(_0);
-				children.add(_1);
-				children.add(_2);
-				}
-				break;
-			case "RIGHT": {
-				Tree _0 = null;
-				_0 = new TerminalTree("EPS", "");
 				children.add(_0);
 				}
 				break;
@@ -322,6 +263,44 @@ public class JavaGrammarParser {
 				children.add(_0);
 				}
 				break;
+			case "NEW": {
+				Tree _0 = null;
+				if (lex.curTerminal().get().equals("NEW")) {
+					_0 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				Tree _1 = null;
+				if (lex.curTerminal().get().equals("NAME")) {
+					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				Tree _2 = null;
+				if (lex.curTerminal().get().equals("LEFTROUND")) {
+					_2 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				expression _3 = null;
+				_3 = new expression();
+				Tree _4 = null;
+				if (lex.curTerminal().get().equals("RIGHTROUND")) {
+					_4 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				children.add(_1);
+				children.add(_2);
+				children.add(_3);
+				children.add(_4);
+				}
+				break;
 			default:
 				throw new AssertionError();
 			}
@@ -432,6 +411,20 @@ public class JavaGrammarParser {
 				children.add(_1);
 				}
 				break;
+			case "NAME": {
+				type _0 = null;
+				_0 = new type();
+				Tree _1 = null;
+				if (lex.curTerminal().get().equals("NAME")) {
+					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
 			case "INT": {
 				type _0 = null;
 				_0 = new type();
@@ -487,6 +480,398 @@ public class JavaGrammarParser {
 				}
 				lex.nextToken();
 				children.add(_0);
+				}
+				break;
+			case "NAME": {
+				Tree _0 = null;
+				if (lex.curTerminal().get().equals("NAME")) {
+					_0 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				}
+				break;
+			default:
+				throw new AssertionError();
+			}
+					}
+	}
+
+	public class functionElement extends Tree {
+		public functionElement() {
+			node = "functionElement";
+			switch(lex.curTerminal().get()) {
+			case "NUMBER": {
+				expression _0 = null;
+				_0 = new expression();
+				Tree _1 = null;
+				if (lex.curTerminal().get().equals("SEMICOLON")) {
+					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "TRUE": {
+				expression _0 = null;
+				_0 = new expression();
+				Tree _1 = null;
+				if (lex.curTerminal().get().equals("SEMICOLON")) {
+					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "FALSE": {
+				expression _0 = null;
+				_0 = new expression();
+				Tree _1 = null;
+				if (lex.curTerminal().get().equals("SEMICOLON")) {
+					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "NEW": {
+				expression _0 = null;
+				_0 = new expression();
+				Tree _1 = null;
+				if (lex.curTerminal().get().equals("SEMICOLON")) {
+					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			default:
+				throw new AssertionError();
+			}
+					}
+	}
+
+	public class bodyDeclaration extends Tree {
+		public bodyDeclaration() {
+			node = "bodyDeclaration";
+			switch(lex.curTerminal().get()) {
+			case "BOOLEAN": {
+				declaration _0 = null;
+				_0 = new declaration();
+				classElement _1 = null;
+				_1 = new classElement();
+				bodyDeclaration _2 = null;
+				_2 = new bodyDeclaration();
+				children.add(_0);
+				children.add(_1);
+				children.add(_2);
+				}
+				break;
+			case "PUBLIC": {
+				declaration _0 = null;
+				_0 = new declaration();
+				classElement _1 = null;
+				_1 = new classElement();
+				bodyDeclaration _2 = null;
+				_2 = new bodyDeclaration();
+				children.add(_0);
+				children.add(_1);
+				children.add(_2);
+				}
+				break;
+			case "LONG": {
+				declaration _0 = null;
+				_0 = new declaration();
+				classElement _1 = null;
+				_1 = new classElement();
+				bodyDeclaration _2 = null;
+				_2 = new bodyDeclaration();
+				children.add(_0);
+				children.add(_1);
+				children.add(_2);
+				}
+				break;
+			case "PRIVATE": {
+				declaration _0 = null;
+				_0 = new declaration();
+				classElement _1 = null;
+				_1 = new classElement();
+				bodyDeclaration _2 = null;
+				_2 = new bodyDeclaration();
+				children.add(_0);
+				children.add(_1);
+				children.add(_2);
+				}
+				break;
+			case "NAME": {
+				declaration _0 = null;
+				_0 = new declaration();
+				classElement _1 = null;
+				_1 = new classElement();
+				bodyDeclaration _2 = null;
+				_2 = new bodyDeclaration();
+				children.add(_0);
+				children.add(_1);
+				children.add(_2);
+				}
+				break;
+			case "INT": {
+				declaration _0 = null;
+				_0 = new declaration();
+				classElement _1 = null;
+				_1 = new classElement();
+				bodyDeclaration _2 = null;
+				_2 = new bodyDeclaration();
+				children.add(_0);
+				children.add(_1);
+				children.add(_2);
+				}
+				break;
+			case "RIGHT": {
+				Tree _0 = null;
+				_0 = new TerminalTree("EPS", "");
+				children.add(_0);
+				}
+				break;
+			default:
+				throw new AssertionError();
+			}
+					}
+	}
+
+	public class functionBody extends Tree {
+		public functionBody() {
+			node = "functionBody";
+			switch(lex.curTerminal().get()) {
+			case "NUMBER": {
+				functionElement _0 = null;
+				_0 = new functionElement();
+				functionBody _1 = null;
+				_1 = new functionBody();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "TRUE": {
+				functionElement _0 = null;
+				_0 = new functionElement();
+				functionBody _1 = null;
+				_1 = new functionBody();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "FALSE": {
+				functionElement _0 = null;
+				_0 = new functionElement();
+				functionBody _1 = null;
+				_1 = new functionBody();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "NEW": {
+				functionElement _0 = null;
+				_0 = new functionElement();
+				functionBody _1 = null;
+				_1 = new functionBody();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "RIGHT": {
+				Tree _0 = null;
+				_0 = new TerminalTree("EPS", "");
+				children.add(_0);
+				}
+				break;
+			default:
+				throw new AssertionError();
+			}
+					}
+	}
+
+	public class arguments extends Tree {
+		public arguments() {
+			node = "arguments";
+			switch(lex.curTerminal().get()) {
+			case "BOOLEAN": {
+				argumentWithoutComma _0 = null;
+				_0 = new argumentWithoutComma();
+				argumentss _1 = null;
+				_1 = new argumentss();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "LONG": {
+				argumentWithoutComma _0 = null;
+				_0 = new argumentWithoutComma();
+				argumentss _1 = null;
+				_1 = new argumentss();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "NAME": {
+				argumentWithoutComma _0 = null;
+				_0 = new argumentWithoutComma();
+				argumentss _1 = null;
+				_1 = new argumentss();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "INT": {
+				argumentWithoutComma _0 = null;
+				_0 = new argumentWithoutComma();
+				argumentss _1 = null;
+				_1 = new argumentss();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "RIGHTROUND": {
+				Tree _0 = null;
+				_0 = new TerminalTree("EPS", "");
+				children.add(_0);
+				}
+				break;
+			default:
+				throw new AssertionError();
+			}
+					}
+	}
+
+	public class argumentWithoutComma extends Tree {
+		public argumentWithoutComma() {
+			node = "argumentWithoutComma";
+			switch(lex.curTerminal().get()) {
+			case "BOOLEAN": {
+				type _0 = null;
+				_0 = new type();
+				Tree _1 = null;
+				if (lex.curTerminal().get().equals("NAME")) {
+					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "LONG": {
+				type _0 = null;
+				_0 = new type();
+				Tree _1 = null;
+				if (lex.curTerminal().get().equals("NAME")) {
+					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "NAME": {
+				type _0 = null;
+				_0 = new type();
+				Tree _1 = null;
+				if (lex.curTerminal().get().equals("NAME")) {
+					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "INT": {
+				type _0 = null;
+				_0 = new type();
+				Tree _1 = null;
+				if (lex.curTerminal().get().equals("NAME")) {
+					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			default:
+				throw new AssertionError();
+			}
+					}
+	}
+
+	public class argumentss extends Tree {
+		public argumentss() {
+			node = "argumentss";
+			switch(lex.curTerminal().get()) {
+			case "COMMA": {
+				argumentWithComma _0 = null;
+				_0 = new argumentWithComma();
+				argumentss _1 = null;
+				_1 = new argumentss();
+				children.add(_0);
+				children.add(_1);
+				}
+				break;
+			case "RIGHTROUND": {
+				Tree _0 = null;
+				_0 = new TerminalTree("EPS", "");
+				children.add(_0);
+				}
+				break;
+			default:
+				throw new AssertionError();
+			}
+					}
+	}
+
+	public class argumentWithComma extends Tree {
+		public argumentWithComma() {
+			node = "argumentWithComma";
+			switch(lex.curTerminal().get()) {
+			case "COMMA": {
+				Tree _0 = null;
+				if (lex.curTerminal().get().equals("COMMA")) {
+					_0 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				type _1 = null;
+				_1 = new type();
+				Tree _2 = null;
+				if (lex.curTerminal().get().equals("NAME")) {
+					_2 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError();
+				}
+				lex.nextToken();
+				children.add(_0);
+				children.add(_1);
+				children.add(_2);
 				}
 				break;
 			default:

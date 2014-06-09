@@ -198,7 +198,11 @@ public class GrammarParser extends Parser {
 						PrintWriter pw = new PrintWriter(grammarName + ".tokens");
 						for (Terminal term : terminals) {
 							if (!term.equals(Terminal.EPS) && !term.equals(Terminal.EOF)) {
-								pw.println(term.get() + ":" + term.match());
+								if (term.isConst()) {
+									pw.println(term.get() + ":" + term.match());
+								} else {
+									pw.println(term.get() + ":$" + term.match() + "$");
+								}
 							}
 						}
 						if (skipTerminal != null) {
@@ -321,7 +325,12 @@ public class GrammarParser extends Parser {
 			setState(57); match(4);
 
 					if (((TermContext)_localctx).name.val.equals(((TermContext)_localctx).name.val.toUpperCase()) && !((TermContext)_localctx).name.val.isEmpty() && findTerm(((TermContext)_localctx).name.val) == null) {
-						terminals.add(new Terminal(((TermContext)_localctx).name.val, ((TermContext)_localctx).termrightpart.val, false));
+						String match = ((TermContext)_localctx).termrightpart.val;
+						if (match.charAt(0) == '\'') {
+							terminals.add(new Terminal(((TermContext)_localctx).name.val, match.substring(1, match.length() - 1), false));
+						} else {
+							terminals.add(new Terminal(((TermContext)_localctx).name.val, match, true));
+						}
 					} else {
 						errorMessage = "Incorrect grammar file: terminal name \'" + ((TermContext)_localctx).name.val + "\'.";
 						hasError = true;
@@ -672,7 +681,7 @@ public class GrammarParser extends Parser {
 			}
 			setState(106); match(4);
 
-					if (((SkipContext)_localctx).termrightpart.val != null && ((SkipContext)_localctx).name.val.equals(((SkipContext)_localctx).name.val.toUpperCase()) && !((SkipContext)_localctx).name.val.isEmpty() && ((SkipContext)_localctx).termrightpart.val.contains("[") && ((SkipContext)_localctx).termrightpart.val.contains("]")) {
+					if (((SkipContext)_localctx).termrightpart.val != null && ((SkipContext)_localctx).name.val.equals(((SkipContext)_localctx).name.val.toUpperCase()) && !((SkipContext)_localctx).name.val.isEmpty()) {
 						skipTerminal = new Terminal(((SkipContext)_localctx).name.val, ((SkipContext)_localctx).termrightpart.val, false);
 					} else {
 						errorMessage = "Incorrect grammar file: skip rule.";

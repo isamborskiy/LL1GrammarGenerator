@@ -33,8 +33,15 @@ public class JavaGrammarLexer {
 			} else {
 				int tmp = line.indexOf(":");
 				if (!isSkip) {
-					terminals.add(new Terminal(line.substring(0, tmp), line.substring(tmp + 1), line.substring(tmp + 1).charAt(0) != '['));
+				if (!isSkip) {
+					if (line.substring(tmp + 1).charAt(0) == '$' && line.charAt(line.length() - 1) == '$') {
+						terminals.add(new Terminal(line.substring(0, tmp), line.substring(tmp + 2, line.length() - 1), false));
+					} else {
+						terminals.add(new Terminal(line.substring(0, tmp), line.substring(tmp + 1), true));
+					}
 				} else {
+					skipTerminal = new Terminal(line.substring(0, tmp), line.substring(tmp + 1), false);
+				}				} else {
 					skipTerminal = new Terminal(line.substring(0, tmp), line.substring(tmp + 1), false);
 				}
 			}

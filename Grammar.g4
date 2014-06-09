@@ -43,7 +43,11 @@ gram
 			PrintWriter pw = new PrintWriter(grammarName + ".tokens");
 			for (Terminal term : terminals) {
 				if (!term.equals(Terminal.EPS) && !term.equals(Terminal.EOF)) {
-					pw.println(term.get() + ":" + term.match());
+					if (term.isConst()) {
+						pw.println(term.get() + ":" + term.match());
+					} else {
+						pw.println(term.get() + ":$" + term.match() + "$");
+					}
 				}
 			}
 			if (skipTerminal != null) {
@@ -67,7 +71,12 @@ term
 	: name ':' termrightpart '$'
 	{
 		if ($name.val.equals($name.val.toUpperCase()) && !$name.val.isEmpty() && findTerm($name.val) == null) {
-			terminals.add(new Terminal($name.val, $termrightpart.val, false));
+			String match = $termrightpart.val;
+			if (match.charAt(0) == '\'') {
+				terminals.add(new Terminal($name.val, match.substring(1, match.length() - 1), false));
+			} else {
+				terminals.add(new Terminal($name.val, match, true));
+			}
 		} else {
 			errorMessage = "Incorrect grammar file: terminal name \'" + $name.val + "\'.";
 			hasError = true;
@@ -168,7 +177,7 @@ nontermrightpart returns [Rule val]
 skip
 	: name ':' termrightpart? '->' SYMBOL+? 'skip' SYMBOL* '$'
 	{
-		if ($termrightpart.val != null && $name.val.equals($name.val.toUpperCase()) && !$name.val.isEmpty() && $termrightpart.val.contains("[") && $termrightpart.val.contains("]")) {
+		if ($termrightpart.val != null && $name.val.equals($name.val.toUpperCase()) && !$name.val.isEmpty()) {
 			skipTerminal = new Terminal($name.val, $termrightpart.val, false);
 		} else {
 			errorMessage = "Incorrect grammar file: skip rule.";
