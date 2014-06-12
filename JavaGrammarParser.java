@@ -603,26 +603,6 @@ public class JavaGrammarParser {
 		public functionBody(int i) {
 			node = "functionBody";
 			switch(lex.curTerminal().get()) {
-			case "BOOLEAN": {
-				functionElement _0 = null;
-				_0 = new functionElement(i);
-				functionBody _1 = null;
-				_1 = new functionBody(i);
-				children.add(_0);
-				children.add(_1);
-				{val = _0.val + _1.val;}
-				}
-				break;
-			case "LONG": {
-				functionElement _0 = null;
-				_0 = new functionElement(i);
-				functionBody _1 = null;
-				_1 = new functionBody(i);
-				children.add(_0);
-				children.add(_1);
-				{val = _0.val + _1.val;}
-				}
-				break;
 			case "WHILE": {
 				functionElement _0 = null;
 				_0 = new functionElement(i);
@@ -654,16 +634,6 @@ public class JavaGrammarParser {
 				}
 				break;
 			case "RETURN": {
-				functionElement _0 = null;
-				_0 = new functionElement(i);
-				functionBody _1 = null;
-				_1 = new functionBody(i);
-				children.add(_0);
-				children.add(_1);
-				{val = _0.val + _1.val;}
-				}
-				break;
-			case "INT": {
 				functionElement _0 = null;
 				_0 = new functionElement(i);
 				functionBody _1 = null;
@@ -795,6 +765,18 @@ public class JavaGrammarParser {
 				lex.nextToken();
 				children.add(_0);
 				{val = "&&";}
+				}
+				break;
+			case "MOD": {
+				Tree _0 = null;
+				if (lex.curTerminal().get().equals("MOD")) {
+					_0 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+				} else {
+					throw new AssertionError("MOD expected, instead of " + lex.curToken());
+				}
+				lex.nextToken();
+				children.add(_0);
+				{val = "%";}
 				}
 				break;
 			case "OR": {
@@ -1042,6 +1024,16 @@ public class JavaGrammarParser {
 		public rightPartOfExpr() {
 			node = "rightPartOfExpr";
 			switch(lex.curTerminal().get()) {
+			case "MOD": {
+				oper _0 = null;
+				_0 = new oper();
+				expression _1 = null;
+				_1 = new expression();
+				children.add(_0);
+				children.add(_1);
+				{val = " " + _0.val + " " + _1.val;}
+				}
+				break;
 			case "DIV": {
 				oper _0 = null;
 				_0 = new oper();
@@ -1234,20 +1226,6 @@ public class JavaGrammarParser {
 					}
 				}
 				break;
-			case "BOOLEAN": {
-				Tree _0 = null;
-				_0 = new TerminalTree("EPS", "");
-				children.add(_0);
-				{val = "\n";}
-				}
-				break;
-			case "LONG": {
-				Tree _0 = null;
-				_0 = new TerminalTree("EPS", "");
-				children.add(_0);
-				{val = "\n";}
-				}
-				break;
 			case "WHILE": {
 				Tree _0 = null;
 				_0 = new TerminalTree("EPS", "");
@@ -1277,13 +1255,6 @@ public class JavaGrammarParser {
 				}
 				break;
 			case "RIGHT": {
-				Tree _0 = null;
-				_0 = new TerminalTree("EPS", "");
-				children.add(_0);
-				{val = "\n";}
-				}
-				break;
-			case "INT": {
 				Tree _0 = null;
 				_0 = new TerminalTree("EPS", "");
 				children.add(_0);
@@ -1613,104 +1584,26 @@ public class JavaGrammarParser {
 		public functionElement(int i) {
 			node = "functionElement";
 			switch(lex.curTerminal().get()) {
-			case "BOOLEAN": {
-				type _0 = null;
-				_0 = new type();
-				Tree _1 = null;
-				if (lex.curTerminal().get().equals("NAME")) {
-					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError("NAME expected, instead of " + lex.curToken());
-				}
-				lex.nextToken();
-				Tree _2 = null;
-				if (lex.curTerminal().get().equals("EQUAL")) {
-					_2 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError("EQUAL expected, instead of " + lex.curToken());
-				}
-				lex.nextToken();
-				expression _3 = null;
-				_3 = new expression();
-				Tree _4 = null;
-				if (lex.curTerminal().get().equals("SEMICOLON")) {
-					_4 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError("SEMICOLON expected, instead of " + lex.curToken());
-				}
-				lex.nextToken();
-				children.add(_0);
-				children.add(_1);
-				children.add(_2);
-				children.add(_3);
-				children.add(_4);
-				{
-						String tab = "";
-						for (int j = 0; j < i; j++) tab += "\t";
-						val = tab + _0.val + " " + _1.text + " = " + _3.val + ";\n";
-					}
-				}
-				break;
-			case "LONG": {
-				type _0 = null;
-				_0 = new type();
-				Tree _1 = null;
-				if (lex.curTerminal().get().equals("NAME")) {
-					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError("NAME expected, instead of " + lex.curToken());
-				}
-				lex.nextToken();
-				Tree _2 = null;
-				if (lex.curTerminal().get().equals("EQUAL")) {
-					_2 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError("EQUAL expected, instead of " + lex.curToken());
-				}
-				lex.nextToken();
-				expression _3 = null;
-				_3 = new expression();
-				Tree _4 = null;
-				if (lex.curTerminal().get().equals("SEMICOLON")) {
-					_4 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError("SEMICOLON expected, instead of " + lex.curToken());
-				}
-				lex.nextToken();
-				children.add(_0);
-				children.add(_1);
-				children.add(_2);
-				children.add(_3);
-				children.add(_4);
-				{
-						String tab = "";
-						for (int j = 0; j < i; j++) tab += "\t";
-						val = tab + _0.val + " " + _1.text + " = " + _3.val + ";\n";
-					}
-				}
-				break;
 			case "NAME": {
-				type _0 = null;
-				_0 = new type();
-				Tree _1 = null;
+				Tree _0 = null;
 				if (lex.curTerminal().get().equals("NAME")) {
-					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+					_0 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
 				} else {
 					throw new AssertionError("NAME expected, instead of " + lex.curToken());
 				}
 				lex.nextToken();
-				Tree _2 = null;
+				Tree _1 = null;
 				if (lex.curTerminal().get().equals("EQUAL")) {
-					_2 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
 				} else {
 					throw new AssertionError("EQUAL expected, instead of " + lex.curToken());
 				}
 				lex.nextToken();
-				expression _3 = null;
-				_3 = new expression();
-				Tree _4 = null;
+				expression _2 = null;
+				_2 = new expression();
+				Tree _3 = null;
 				if (lex.curTerminal().get().equals("SEMICOLON")) {
-					_4 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
+					_3 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
 				} else {
 					throw new AssertionError("SEMICOLON expected, instead of " + lex.curToken());
 				}
@@ -1719,49 +1612,10 @@ public class JavaGrammarParser {
 				children.add(_1);
 				children.add(_2);
 				children.add(_3);
-				children.add(_4);
 				{
 						String tab = "";
 						for (int j = 0; j < i; j++) tab += "\t";
-						val = tab + _0.val + " " + _1.text + " = " + _3.val + ";\n";
-					}
-				}
-				break;
-			case "INT": {
-				type _0 = null;
-				_0 = new type();
-				Tree _1 = null;
-				if (lex.curTerminal().get().equals("NAME")) {
-					_1 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError("NAME expected, instead of " + lex.curToken());
-				}
-				lex.nextToken();
-				Tree _2 = null;
-				if (lex.curTerminal().get().equals("EQUAL")) {
-					_2 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError("EQUAL expected, instead of " + lex.curToken());
-				}
-				lex.nextToken();
-				expression _3 = null;
-				_3 = new expression();
-				Tree _4 = null;
-				if (lex.curTerminal().get().equals("SEMICOLON")) {
-					_4 = new TerminalTree(lex.curTerminal().get(), lex.curToken());
-				} else {
-					throw new AssertionError("SEMICOLON expected, instead of " + lex.curToken());
-				}
-				lex.nextToken();
-				children.add(_0);
-				children.add(_1);
-				children.add(_2);
-				children.add(_3);
-				children.add(_4);
-				{
-						String tab = "";
-						for (int j = 0; j < i; j++) tab += "\t";
-						val = tab + _0.val + " " + _1.text + " = " + _3.val + ";\n";
+						val = tab + _0.text + " = " + _2.val + ";\n";
 					}
 				}
 				break;

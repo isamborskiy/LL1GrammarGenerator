@@ -57,11 +57,11 @@ functionBody[int i] returns [String val]
 	$
 	
 functionElement[int i] returns [String val]
-	# type NAME EQUAL expression SEMICOLON
+	# NAME EQUAL expression SEMICOLON
 	{
 		String tab = "";
 		for (int j = 0; j < i; j++) tab += "\t";
-		val = tab + _0.val + " " + _1.text + " = " + _3.val + ";\n";
+		val = tab + _0.text + " = " + _2.val + ";\n";
 	}
 	# ifBlock[i] elseBlock[i]
 	{val = _0.val + _1.val;}
@@ -182,6 +182,8 @@ oper returns [String val]
 	{val = "/";}
 	# AND
 	{val = "&&";}
+	# MOD
+	{val = "%";}
 	# OR
 	{val = "||";}
 	# EQUAL EQUAL
@@ -235,6 +237,7 @@ MUL			: (*) $
 DIV			: (/) $
 AND			: (&&) $
 OR			: (||) $
+MOD			: (%) $
 LEFT		: ({) $
 RIGHT		: (}) $
 LEFTROUND	: (() $
