@@ -1,86 +1,251 @@
 grammar JavaGrammar $
 
 prog
-	# classDeclaration EOF
+	# classDeclaration[0] EOF
+	{System.out.println(_0.val);}
 	$
 	
-classDeclaration
-	# modifier CLASS NAME LEFT bodyDeclaration RIGHT
+classDeclaration[int i] returns [String val]
+	# modifier CLASS NAME LEFT bodyDeclaration[i+1] RIGHT
+	{	
+		String tab = "";
+		for (int j = 0; j < i; j++) tab += "\t";
+		val = tab + _0.val + "class " + _2.text + " {\n" + _4.val + tab + "}\n";
+	}
 	$
 	
-bodyDeclaration
-	# declaration classElement bodyDeclaration
+bodyDeclaration[int i] returns [String val]
+	# declaration[i] classElement[i] bodyDeclaration[i]
+	{val = _0.val + _1.val + _2.val;}
 	# EPS
+	{val = "";}
 	$
 	
-declaration
+declaration[int i] returns [String val]
 	# modifier type NAME
+	{
+		String tab = "";
+		for (int j = 0; j < i; j++) tab += "\t";
+		val = tab + _0.val + _1.val + " " + _2.text;
+	}
 	# type NAME
+	{
+		String tab = "";
+		for (int j = 0; j < i; j++) tab += "\t";
+		val = tab + _0.val + " " + _1.text;
+	}
 	$
 	
-classElement
+classElement[int i] returns [String val]
 	# EQUAL expression SEMICOLON
-	# LEFTROUND arguments RIGHTROUND LEFT functionBody RIGHT
+	{val = " = " + _1.val + ";\n";}
+	# LEFTROUND arguments RIGHTROUND LEFT functionBody[i+1] RIGHT
+	{
+		String tab = "";
+		for (int j = 0; j < i; j++) tab += "\t";
+		val = "(" + _1.val + ") {\n" + _4.val + tab + "}\n";
+	}
 	# SEMICOLON
+	{val = ";\n";}
 	$
 	
-functionBody
-	# functionElement functionBody
+functionBody[int i] returns [String val]
+	# functionElement[i] functionBody[i]
+	{val = _0.val + _1.val;}
 	# EPS
+	{val = "";}
 	$
 	
-functionElement
-	# expression SEMICOLON
+functionElement[int i] returns [String val]
+	# type NAME EQUAL expression SEMICOLON
+	{
+		String tab = "";
+		for (int j = 0; j < i; j++) tab += "\t";
+		val = tab + _0.val + " " + _1.text + " = " + _3.val + ";\n";
+	}
+	# ifBlock[i] elseBlock[i]
+	{val = _0.val + _1.val;}
+	# whileBlock[i]
+	{val = _0.val;}
+	# RETURN expression SEMICOLON
+	{
+		String tab = "";
+		for (int j = 0; j < i; j++) tab += "\t";
+		val = tab + _0.text + " " + _1.val + ";\n";
+	}
 	$
+	
+ifBlock[int i] returns [String val]
+	# IF LEFTROUND expression RIGHTROUND LEFT functionBody[i+1] RIGHT
+	{
+		String tab = "";
+		for (int j = 0; j < i; j++) tab += "\t";
+		val = tab + "if (" + _2.val + ") {\n" + _5.val + tab + "}";
+	}
+	$
+	
+elseBlock[int i] returns [String val]
+	# ELSE LEFT functionBody[i+1] RIGHT
+	{
+		String tab = "";
+		for (int j = 0; j < i; j++) tab += "\t";
+		val = " else {\n" + _2.val + tab + "}\n";
+	}
+	# EPS
+	{val = "\n";}
+	$
+	
+whileBlock[int i] returns [String val]
+	# WHILE LEFTROUND expression RIGHTROUND LEFT functionBody[i+1] RIGHT
+	{
+		String tab = "";
+		for (int j = 0; j < i; j++) tab += "\t";
+		val = tab + "while (" + _2.val + ") {\n" + _5.val + tab + "}\n";
+	}
+	$ 
 
-arguments
+arguments returns [String val]
 	# argumentWithoutComma argumentss
+	{val = _0.val + _1.val;}
 	# EPS
+	{val = "";}
 	$
 	
-argumentss
+argumentss returns [String val]
 	# argumentWithComma argumentss
+	{val = _0.val + _1.val;}
 	# EPS
+	{val = "";}
 	$
 	
-argumentWithoutComma
+argumentWithoutComma returns [String val]
 	# type NAME
+	{val = _0.val + " " + _1.text;}
 	$
 
-argumentWithComma
+argumentWithComma returns [String val]
 	# COMMA type NAME
+	{val = ", " + _1.val + " " + _2.text;}
 	$
 
-modifier
+modifier returns [String val]
 	# PUBLIC
+	{val = _0.text + " ";}
 	# PRIVATE
+	{val = _0.text + " ";}
 	$
 	
-type
+type returns [String val]
 	# INT
+	{val = _0.text;}
 	# LONG
+	{val = _0.text;}
 	# BOOLEAN
+	{val = _0.text;}
 	# NAME
+	{val = _0.text;}
+	$
+	
+value returns [String val]
+	# NUMBER
+	{val = _0.text;}
+	# TRUE
+	{val = _0.text;}
+	# FALSE
+	{val = _0.text;}
+	# NAME
+	{val = _0.text;}
 	$
 
-expression
-	# NUMBER
-	# TRUE
-	# FALSE
-	# NEW NAME LEFTROUND expression RIGHTROUND
+expression returns [String val]
+	# value rightPartOfExpr
+	{val = _0.val + _1.val;}
+	# NEW NAME LEFTROUND newOper
+	{val = "new " + _1.text + "(" + _3.val;}
+	# LEFTROUND expression RIGHTROUND rightPartOfExpr
+	{val = "(" + _1.val + ")" + _3.val;}
+	$
+
+rightPartOfExpr returns [String val]
+	# oper expression
+	{val = " " + _0.val + " " + _1.val;}
+	# EPS
+	{val = "";}
+	$
+	
+oper returns [String val]
+	# PLUS
+	{val = "+";}
+	# MUL
+	{val = "*";}
+	# DIV
+	{val = "/";}
+	# AND
+	{val = "&&";}
+	# OR
+	{val = "||";}
+	# EQUAL EQUAL
+	{val = "==";}
+	# LESS
+	{val = "<";}
+	# GREAT
+	{val = ">";}
+	# NOT EQUAL
+	{val = "!=";}
+	$
+	
+newOper returns [String val]
+	# argumentsExpr RIGHTROUND
+	{val = _0.val + ")";}
+	# RIGHTROUND
+	{val = ")";}
+	$
+	
+argumentsExpr returns [String val]
+	# argumentWithoutCommaExpr argumentssExpr
+	{val = _0.val + _1.val;}
+	$
+	
+argumentssExpr returns [String val]
+	# argumentWithCommaExpr argumentssExpr
+	{val = _0.val + _1.val;}
+	# EPS
+	{val = "";}
+	$
+	
+argumentWithoutCommaExpr returns [String val]
+	# expression
+	{val = _0.val;}
+	$
+
+argumentWithCommaExpr returns [String val]
+	# COMMA expression
+	{val = ", " + _1.val;}
 	$
 	
 PUBLIC		: (public) $
 PRIVATE		: (private) $
 CLASS		: (class) $
 NEW			: (new) $
+IF			: (if) $
+ELSE		: (else) $
+WHILE		: (while) $
+PLUS		: (+) $
+MUL			: (*) $
+DIV			: (/) $
+AND			: (&&) $
+OR			: (||) $
 LEFT		: ({) $
 RIGHT		: (}) $
 LEFTROUND	: (() $
 RIGHTROUND	: ()) $
 SEMICOLON	: (;) $
 COMMA		: (,) $
+POINT		: (.) $
 EQUAL		: (=) $
+LESS		: (<) $
+GREAT		: (>) $
+NOT			: (!) $
 INT			: (int) $
 LONG		: (long) $
 FLOAT		: (float) $
@@ -89,6 +254,7 @@ BOOLEAN		: (boolean) $
 TRUE		: (true) $
 FALSE		: (false) $
 NAME		: ('[a-zA-Z]+') $
-NUMBER		: ('\-?\d') $
+NUMBER		: ('\-?\d+') $
+RETURN		: (return) $
 
 SKIP		: ( \t\r\n) -> skip $

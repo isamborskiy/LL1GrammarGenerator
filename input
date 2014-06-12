@@ -1,8 +1,14 @@
-public class Test {
-	public int a = -5;
-	boolean isTrue = true;
-	String str = new String(true);
+public class Prime {
 	
-	private int sum(int a, int b) {
+	private int one = 1;
+	String str = new String();
+	
+	public boolean isPrime(int num) {
+		if (num < 3) {
+			return true;
+		}
+		int i = 0;
+		
 	}
+	
 }

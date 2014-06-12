@@ -19,8 +19,8 @@ public class LexerGenerator {
 						+ "\n"
 						+ "import com.samborskiy.elements.Terminal;\n"
 						+ "\n"
-						+ "public class %sLexer {\n"
-						+ "\tprivate static final String TOKENS_FILE = \"%s.tokens\";\n"
+						+ "public class %1$sLexer {\n"
+						+ "\tprivate static final String TOKENS_FILE = \"%1$s.tokens\";\n"
 						+ "\t\n"
 						+ "\tprivate StringBuilder input = new StringBuilder();\n"
 						+ "\tprivate int curTokenNumber = 0;\n"
@@ -29,7 +29,7 @@ public class LexerGenerator {
 						+ "\tprivate List<Terminal> terminals = new ArrayList<>();\n"
 						+ "\tprivate Terminal skipTerminal;\n"
 						+ "\n"
-						+ "\tpublic %sLexer(String fileName) throws IOException, ParseException {\n"
+						+ "\tpublic %1$sLexer(String fileName) throws IOException, ParseException {\n"
 						+ "\t\tBufferedReader bf = new BufferedReader(new FileReader(fileName));\n"
 						+ "\t\tString line = \"\";\n"
 						+ "\t\twhile ((line = bf.readLine()) != null) {\n"
@@ -44,15 +44,11 @@ public class LexerGenerator {
 						+ "\t\t\t} else {\n"
 						+ "\t\t\t\tint tmp = line.indexOf(\":\");\n"
 						+ "\t\t\t\tif (!isSkip) {\n"
-						+ "\t\t\t\tif (!isSkip) {\n"
 						+ "\t\t\t\t\tif (line.substring(tmp + 1).charAt(0) == '$' && line.charAt(line.length() - 1) == '$') {\n"
 						+ "\t\t\t\t\t\tterminals.add(new Terminal(line.substring(0, tmp), line.substring(tmp + 2, line.length() - 1), false));\n"
 						+ "\t\t\t\t\t} else {\n"
 						+ "\t\t\t\t\t\tterminals.add(new Terminal(line.substring(0, tmp), line.substring(tmp + 1), true));\n"
 						+ "\t\t\t\t\t}\n"
-						+ "\t\t\t\t} else {\n"
-						+ "\t\t\t\t\tskipTerminal = new Terminal(line.substring(0, tmp), line.substring(tmp + 1), false);\n"
-						+ "\t\t\t\t}"
 						+ "\t\t\t\t} else {\n"
 						+ "\t\t\t\t\tskipTerminal = new Terminal(line.substring(0, tmp), line.substring(tmp + 1), false);\n"
 						+ "\t\t\t\t}\n"
@@ -142,8 +138,7 @@ public class LexerGenerator {
 						+ "\t}\n" + "\t\n"
 						+ "\tpublic boolean hasNextToken() {\n"
 						+ "\t\treturn curTokenNumber < tokens.size();\n"
-						+ "\t}\n" + "}\n", grammarName, grammarName,
-						grammarName);
+						+ "\t}\n" + "}\n", grammarName);
 		PrintWriter pw = new PrintWriter(grammarName + "Lexer.java");
 		pw.print(out);
 		pw.close();

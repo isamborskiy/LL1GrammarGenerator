@@ -14,18 +14,18 @@ import com.samborskiy.elements.Terminal;
 
 public class ParserGenerator {
 
-	private static final String TAP3 = "\t\t\t";
-	private static final String TAP4 = "\t\t\t\t";
-	private static final String TAP5 = "\t\t\t\t\t";
+	private static final String TAB3 = "\t\t\t";
+	private static final String TAB4 = "\t\t\t\t";
+	private static final String TAB5 = "\t\t\t\t\t";
 
-	private static final String TERMINAL = TAP4
+	private static final String TERMINAL = TAB4
 			+ "if (lex.curTerminal().get().equals(\"%s\")) {\n"
-			+ TAP5
+			+ TAB5
 			+ "_%s = new TerminalTree(lex.curTerminal().get(), lex.curToken());\n"
-			+ TAP4 + "} else {\n" + TAP5 + "throw new AssertionError();\n"
-			+ TAP4 + "}\n" + TAP4 + "lex.nextToken();\n";
-	private static final String NONTERMINAL = TAP4 + "_%s = new %s(%s);\n";
-	private static final String EPS_TERMINAL = TAP4
+			+ TAB4 + "} else {\n" + TAB5 + "throw new AssertionError(\"%s expected, instead of \" + lex.curToken());\n"
+			+ TAB4 + "}\n" + TAB4 + "lex.nextToken();\n";
+	private static final String NONTERMINAL = TAB4 + "_%s = new %s(%s);\n";
+	private static final String EPS_TERMINAL = TAB4
 			+ "_%s = new TerminalTree(\"EPS\", \"\");\n";
 
 	public static void generate(String grammarName, Nonterminal start,
@@ -68,11 +68,11 @@ public class ParserGenerator {
 		for (Nonterminal nonterm : rules.keySet()) {
 			StringBuilder function = new StringBuilder(String.format(
 					"\tpublic class %s extends Tree {%s\n\t\tpublic %s(%s) {\n"
-							+ TAP3 + "node = \"%s\";\n", nonterm.get(), nonterm
+							+ TAB3 + "node = \"%s\";\n", nonterm.get(), nonterm
 							.getSynth().isEmpty() ? "" : "\n\t\tpublic "
 							+ nonterm.getSynth() + ";", nonterm.get(), nonterm
 							.getInher(), nonterm.get()));
-			function.append(TAP3 + "switch(lex.curTerminal().get()) {\n");
+			function.append(TAB3 + "switch(lex.curTerminal().get()) {\n");
 
 			for (Rule rule : rules.get(nonterm)) {
 				Element elem = rule.get(0);
@@ -91,8 +91,8 @@ public class ParserGenerator {
 				}
 			}
 
-			function.append(TAP3 + "default:\n" + TAP4
-					+ "throw new AssertionError();\n" + TAP3 + "}\n" + TAP3
+			function.append(TAB3 + "default:\n" + TAB4
+					+ "throw new AssertionError();\n" + TAB3 + "}\n" + TAB3
 					+ "\t\t}\n\t}\n\n");
 			out.append(function);
 		}
@@ -104,34 +104,34 @@ public class ParserGenerator {
 
 	private static final StringBuilder generateCase(Nonterminal nonterm,
 			Terminal term, Rule rule) {
-		StringBuilder c = new StringBuilder(String.format(TAP3
+		StringBuilder c = new StringBuilder(String.format(TAB3
 				+ "case \"%s\": {\n", term.get()));
 
 		for (int i = 0; i < rule.size(); i++) {
 			Element elem = rule.get(i);
 			if (elem.isTerm()) {
-				c.append(TAP4 + "Tree _" + i + " = null;\n");
+				c.append(TAB4 + "Tree _" + i + " = null;\n");
 				if (elem.equals(Terminal.EPS)) {
 					c.append(String.format(EPS_TERMINAL, String.valueOf(i)));
 				} else {
 					c.append(String.format(TERMINAL, elem.get(),
-							String.valueOf(i)));
+							String.valueOf(i), elem.get()));
 				}
 			} else {
-				c.append(TAP4 + elem.get() + " _" + i + " = null;\n");
+				c.append(TAB4 + elem.get() + " _" + i + " = null;\n");
 				c.append(String.format(NONTERMINAL, String.valueOf(i),
 						elem.get(), ((Nonterminal) elem).getInher()));
 			}
 		}
 		for (int i = 0; i < rule.size(); i++) {
-			c.append(TAP4 + "children.add(_" + i + ");\n");
+			c.append(TAB4 + "children.add(_" + i + ");\n");
 		}
 		if (!rule.getTrans().isEmpty()) {
 			String[] lines = rule.getTrans().split("\n");
 			for (String line : lines) {
-				c.append(TAP4 + line + "\n");
+				c.append(TAB4 + line + "\n");
 			}
 		}
-		return c.append(TAP4 + "}\n" + TAP4 + "break;\n");
+		return c.append(TAB4 + "}\n" + TAB4 + "break;\n");
 	}
 }
