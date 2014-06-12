@@ -1,9 +1,6 @@
-public class Prime {
-private int i;	public boolean isPrime(int num) {if(num<3){return true;}
+public class Prime {private int i;	public boolean isPrime(int num) {if(num<3){return true;}
 	i = 2;	while(num /2 >i){
 if (num % i == 0) {
-return false;
-		}	i = i + 1;
+return false;                  	}	i = i + 1;
 	}
-	return true;
-}}
+return true;}}
