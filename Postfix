@@ -1,0 +1,15 @@
+grammar Postfix $
+
+s
+	# N a
+	# EPS
+	$
+	
+a
+	# N a SIGN a
+	# EPS
+	$
+	
+SIGN: ('[+\-*]') $
+N	: ('\d+') $
+SKIP: ('[ \t\r\n]') -> skip $
