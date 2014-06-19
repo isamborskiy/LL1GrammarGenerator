@@ -34,9 +34,25 @@ gram
 			headerCode = header.substring(header.indexOf("{") + 1, header.lastIndexOf("}"));
 		}
 		grammarName = $name.val;
-		if (terminals.contains(Terminal.EPS) || terminals.contains(Terminal.EOF)) {
-			errorMessage = "EPS and EOF are reserved names.";
+		if (terminals.contains(Terminal.EPS) || terminals.contains(Terminal.EOF) || terminals.contains(Terminal.COLON) || terminals.contains(Terminal.HASH)) {
+			errorMessage = "EPS, EOF, COLON and HASH are reserved names of terminals.";
 			hasError = true;
+		}
+		
+		for (Nonterminal nonterm : rules.keySet()) {
+			for (Rule rule : rules.get(nonterm)) {
+				for (int i = 0; i < rule.size(); i++) {
+					Element elem = rule.get(i);
+					if (elem.isTerm()) {
+						if (((Terminal) elem).equals(Terminal.COLON)) {
+							terminals.add(Terminal.COLON);
+						}
+						if (((Terminal) elem).equals(Terminal.HASH)) {
+							terminals.add(Terminal.HASH);
+						}
+					}
+				}
+			}
 		}
 		
 		try {

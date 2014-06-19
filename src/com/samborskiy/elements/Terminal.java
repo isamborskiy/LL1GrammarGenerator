@@ -4,6 +4,8 @@ public class Terminal implements Element {
 
 	public static final Terminal EPS = new Terminal("EPS", "", false);
 	public static final Terminal EOF = new Terminal("EOF", "$", false);
+	public static final Terminal COLON = new Terminal("COLON", ":", true);
+	public static final Terminal HASH = new Terminal("HASH", "#", true);
 
 	private String name;
 	private String matchValue;
